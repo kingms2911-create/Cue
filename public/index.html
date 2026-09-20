@@ -1,1 +1,263 @@
+<!doctype html>
+<html lang="hi-Latn" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>Cue: video ideas, scripts aur one-click publishing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="wordmark">Cue</span>
+    <nav class="tabs" role="tablist" aria-label="Cue sections">
+      <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
+      <button class="tab" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
+      <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
+      <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
+    </nav>
+    <div class="tools">
+      <button class="btn quiet small" id="btn-theme" type="button">Light mode</button>
+      <button class="btn quiet small" id="btn-settings" type="button">Settings</button>
+    </div>
+  </div>
+</header>
 
+<main class="wrap">
+
+  <!-- ============ IDEAS ============ -->
+  <section id="panel-ideas" role="tabpanel" aria-labelledby="tab-ideas">
+    <div class="layout">
+      <section class="panel-form" aria-labelledby="h1">
+        <h1 id="h1">Agla video kya banana hai?</h1>
+        <p class="lede">Apni niche batao. 10 video ideas lo, phir ek script jo aaj hi record kar sako.</p>
+        <form id="brief" novalidate>
+          <fieldset class="field">
+            <legend class="label">Kahan post karoge?</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="fmt" value="yt" checked><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
+              <label class="opt"><input type="radio" name="fmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
+              <label class="opt"><input type="radio" name="fmt" value="reel"><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label class="label" for="niche">Tumhari niche</label>
+            <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout" aria-describedby="niche-error">
+            <p class="field-error" id="niche-error" role="alert" hidden></p>
+          </div>
+          <div class="field">
+            <label class="label" for="audience">Tumhare viewers <span class="hint">(optional)</span></label>
+            <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
+          </div>
+          <fieldset class="field">
+            <legend class="label">Tone</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="tone" value="Educational" checked><span class="box">Sikhane wala</span></label>
+              <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
+              <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
+              <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
+            </div>
+          </fieldset>
+          <button class="btn primary" id="go" type="submit">10 ideas lo</button>
+        </form>
+      </section>
+      <section class="results" id="results" tabindex="-1" aria-label="Ideas aur script"></section>
+    </div>
+  </section>
+
+  <!-- ============ PUBLISH ============ -->
+  <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
+    <div class="page-head">
+      <h1>Ek click mein sab jagah post karo</h1>
+      <p class="lede">Video chuno, platforms select karo, caption check karo, phir publish ya schedule.</p>
+    </div>
+    <div id="banner" class="banner" hidden></div>
+
+    <div class="pub-grid">
+      <div class="pub-col">
+        <section class="block" id="drop-section" aria-labelledby="h-video">
+          <h2 id="h-video"><span class="num">1</span>Video</h2>
+          <div id="drop" class="drop">
+            <input id="video-file" class="drop-input" type="file" accept="video/mp4,video/quicktime,.mp4,.mov" aria-label="Video file chuno (MP4 ya MOV)">
+            <div class="drop-body">
+              <strong>Video yahan drop karo</strong>
+              <span>ya tap karke chuno (MP4 / MOV, 512 MB tak)</span>
+            </div>
+          </div>
+          <p class="or"><span>ya</span></p>
+          <label class="label" for="video-url">Video ka public URL</label>
+          <div class="field-row">
+            <input id="video-url" type="url" inputmode="url" autocomplete="off" placeholder="https://...">
+            <button id="video-url-set" class="btn quiet" type="button">Use karo</button>
+          </div>
+          <div id="media-info" class="media-info" hidden>
+            <video id="media-preview" controls muted playsinline preload="metadata"></video>
+            <div class="media-meta">
+              <p id="media-name" class="media-name"></p>
+              <div id="upload-bar" class="bar" role="progressbar" aria-label="Upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span id="upload-fill"></span></div>
+              <p id="upload-msg" class="sub"></p>
+            </div>
+            <button id="media-clear" class="btn link" type="button">Video hatao</button>
+          </div>
+        </section>
+
+        <section class="block" aria-labelledby="h-plat">
+          <h2 id="h-plat"><span class="num">2</span>Kahan post karna hai</h2>
+          <p id="conn-line" class="sub"></p>
+          <ul id="platform-list" class="plat-list"></ul>
+          <div class="row-wrap">
+            <button id="plat-all" class="btn link" type="button">Sab chuno</button>
+            <button id="conn-refresh" class="btn link" type="button">Status dobara check karo</button>
+          </div>
+        </section>
+
+        <section class="block" aria-labelledby="h-content">
+          <h2 id="h-content"><span class="num">3</span>Title, caption aur hashtags</h2>
+          <div class="row-wrap">
+            <button id="fill-script" class="btn ghost small" type="button">Script se bharo</button>
+            <button id="fill-demo" class="btn quiet small" type="button">Sample content</button>
+          </div>
+          <div class="field">
+            <label class="label" for="m-title">Video title</label>
+            <input id="m-title" type="text" maxlength="200" autocomplete="off" placeholder="Ghar par 10 minute ka workout">
+          </div>
+          <div class="field">
+            <label class="label" for="m-caption">Caption</label>
+            <textarea id="m-caption" rows="5" placeholder="Video ke baare mein 1 se 3 line likho"></textarea>
+          </div>
+          <div class="field">
+            <label class="label" for="m-tags">Hashtags</label>
+            <input id="m-tags" type="text" autocomplete="off" placeholder="#fitness #homeworkout #reels">
+          </div>
+          <p class="hint">Har platform ke liye caption apne aap adjust hota hai (TikTok chhota, X 280 tak, YouTube ka alag title). Neeche edit kar sakte ho.</p>
+        </section>
+      </div>
+
+      <div class="pub-col">
+        <section class="block" aria-labelledby="h-prev">
+          <h2 id="h-prev"><span class="num">4</span>Platform ke hisaab se preview</h2>
+          <p id="previews-empty" class="sub">Upar se platforms chuno, yahan har platform ka caption dikhega.</p>
+          <div id="previews"></div>
+        </section>
+
+        <section class="block" aria-labelledby="h-pub">
+          <h2 id="h-pub"><span class="num">5</span>Publish</h2>
+          <ul id="problems" class="problems" role="status"></ul>
+          <div id="schedule-panel" class="schedule" hidden>
+            <label class="label" for="sched-at">Kab post karna hai? <span class="hint">(aapke device ke time mein)</span></label>
+            <input id="sched-at" type="datetime-local">
+            <div class="row-wrap">
+              <button id="sched-best" class="btn quiet small" type="button">Best time suggest karo</button>
+              <button id="sched-cancel" class="btn link small" type="button">Cancel</button>
+            </div>
+            <p id="sched-note" class="sub" role="status"></p>
+          </div>
+          <div class="actions-stack">
+            <button id="btn-now" class="btn primary" type="button">Abhi publish karo</button>
+            <button id="btn-schedule" class="btn quiet" type="button">Schedule karo</button>
+          </div>
+        </section>
+
+        <section id="status-block" class="block status-block" aria-labelledby="h-status" hidden>
+          <h2 id="h-status">Publish status</h2>
+          <div id="status-bar" class="bar" role="progressbar" aria-label="Publishing progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="status-fill"></span></div>
+          <p id="status-sum" class="sub"></p>
+          <ul id="status-list" class="jobs"></ul>
+          <div class="row-wrap">
+            <button id="btn-retry-failed" class="btn ghost small" type="button" hidden>Fail wale retry karo</button>
+            <button id="btn-new" class="btn quiet small" type="button" hidden>Naya post shuru karo</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLKIT ============ -->
+  <section id="panel-toolkit" role="tabpanel" aria-labelledby="tab-toolkit" hidden>
+    <div class="page-head">
+      <h1>Creator toolkit</h1>
+      <p class="lede">Instagram bio ke liye fancy fonts aur har platform ka best posting time.</p>
+    </div>
+    <div class="tool-grid">
+      <section class="block" aria-labelledby="h-bio">
+        <h2 id="h-bio">Instagram bio font generator</h2>
+        <label class="label" for="bio-in">Apna bio likho</label>
+        <textarea id="bio-in" rows="3" placeholder="Aapka Naam | Fitness Coach"></textarea>
+        <p class="sub"><span id="bio-count">0/150</span> characters (Instagram bio limit 150)</p>
+        <ul id="bio-out" class="fonts"></ul>
+        <h3 class="mini-h">Bio symbols</h3>
+        <div id="sym-list" class="syms"></div>
+        <p class="hint">Tip: fancy fonts sirf bio mein use karo. Name field mein mat karo (search mein nahi milega), aur screen reader inhe theek se nahi padhte.</p>
+      </section>
+      <section class="block" aria-labelledby="h-time">
+        <h2 id="h-time">Best video upload time</h2>
+        <label class="label" for="tz-sel">Audience ka timezone</label>
+        <select id="tz-sel"></select>
+        <ul id="time-out" class="times"></ul>
+        <p class="hint">Ye general industry patterns hain, guarantee nahi. 2 se 3 hafte test karo aur apne analytics se compare karo. Slot par tap karo to Publish tab mein schedule set ho jayega.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============ HISTORY ============ -->
+  <section id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
+    <div class="page-head">
+      <h1>Publishing history</h1>
+      <p class="lede">Kya post kiya, kahan kiya, aur kya fail hua.</p>
+    </div>
+    <div id="stats" class="stats"></div>
+    <div class="chart-row">
+      <section class="block" aria-labelledby="h-cplat">
+        <h2 id="h-cplat">Platform ke hisaab se</h2>
+        <ul id="chart-plat" class="bars"></ul>
+        <p class="legend"><span class="dot ok"></span>Published <span class="dot info"></span>Scheduled <span class="dot warn"></span>Processing <span class="dot bad"></span>Fail</p>
+      </section>
+      <section class="block" aria-labelledby="h-cweek">
+        <h2 id="h-cweek">Pichhle 7 din</h2>
+        <ul id="chart-week" class="week"></ul>
+      </section>
+    </div>
+    <div class="filters" role="group" aria-label="History filter">
+      <button class="fchip" type="button" data-filter="all" aria-pressed="true">Sab</button>
+      <button class="fchip" type="button" data-filter="done" aria-pressed="false">Published</button>
+      <button class="fchip" type="button" data-filter="scheduled" aria-pressed="false">Scheduled</button>
+      <button class="fchip" type="button" data-filter="failed" aria-pressed="false">Fail</button>
+    </div>
+    <ul id="hist-list" class="hist"></ul>
+    <button id="hist-clear" class="btn link" type="button" hidden>History saaf karo</button>
+    <p class="hint">Views aur likes ke liye platform analytics API chahiye. Abhi ye page sirf Cue se kiye gaye posts ka record dikhata hai, jo is browser mein save rehta hai.</p>
+  </section>
+
+</main>
+
+<dialog id="settings" aria-labelledby="set-h">
+  <h2 id="set-h">Settings</h2>
+  <div class="field">
+    <label class="label" for="set-key">Access key</label>
+    <input id="set-key" type="password" autocomplete="off" placeholder="Server ka CUE_ACCESS_KEY">
+    <p class="hint">Ye key sirf is browser mein save hoti hai. Bina iske publishing aur AI calls nahi chalenge.</p>
+  </div>
+  <label class="check"><input type="checkbox" id="set-demo"><span>Demo mode (asli posting nahi hogi)</span></label>
+  <div class="row-wrap dialog-actions">
+    <button id="set-save" class="btn primary inline" type="button">Save karo</button>
+    <button id="set-cancel" class="btn quiet" type="button">Band karo</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" aria-hidden="true"></div>
+<div class="sr" id="sr" role="status"></div>
+
+<script src="js/lib.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ideas.js"></script>
+<script src="js/toolkit.js"></script>
+<script src="js/history.js"></script>
+<script src="js/publisher.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
