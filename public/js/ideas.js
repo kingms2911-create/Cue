@@ -37,7 +37,7 @@
   function getCredits() {
     var c = U.store.get(CREDITS_KEY, null);
     if (c === null) {
-      c = 3; // Naye user ko 3 free credits milenge
+      c = 1; // Naye user ko sirf 1 free credit milega
       U.store.set(CREDITS_KEY, c);
     }
     return Number(c);
@@ -53,7 +53,6 @@
   }
 
   function showPaywallPopup() {
-    // Agar popup pehle se hai toh hata do
     var old = document.getElementById("paywall-modal");
     if (old) old.remove();
 
@@ -169,7 +168,6 @@
     var b = readBrief();
     if (!b.niche) { setFieldError("Ideas ke liye apni niche likho."); nicheEl.focus(); return; }
     
-    // Check credits before generating
     if (!append && getCredits() <= 0) {
       showPaywallPopup();
       return;
@@ -245,7 +243,7 @@
     if (state.ideasBusy) results.append(el("p", { class: "thinking", text: "Idea ban raha hai..." }));
     if (state.error) results.append(el("p", { class: "error", role: "alert", text: state.error }));
     if (state.ideas.length && !state.ideasBusy) {
-      results.append(el("button", { class: "btn quiet more", type: "button", onclick: function () { getIdeas(true); } }, "Aur ek idea lo"));
+      results.append(el("button", { class: "btn quiet more", type: "button", onclick: function () { getIdeas(true); } }, "Idea do"));
     }
   }
 
