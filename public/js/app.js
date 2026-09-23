@@ -4,7 +4,7 @@
   var Cue = (window.Cue = window.Cue || {});
   var App = (Cue.app = {});
   var U = Cue.ui;
-  var TABS = ["ideas", "publish", "toolkit", "history"];
+  var TABS = ["ideas", "vibescript", "publish", "toolkit", "history"];
   var THEME_KEY = "cue:theme";
 
   function $id(id) { return document.getElementById(id); }
@@ -15,12 +15,15 @@
     TABS.forEach(function (t) {
       var on = t === id;
       var tab = $id("tab-" + t);
-      tab.setAttribute("aria-selected", String(on));
-      tab.tabIndex = on ? 0 : -1;
-      $id("panel-" + t).hidden = !on;
+      if (tab) {
+        tab.setAttribute("aria-selected", String(on));
+        tab.tabIndex = on ? 0 : -1;
+      }
+      var panel = $id("panel-" + t);
+      if (panel) panel.hidden = !on;
     });
-    if (id === "history") Cue.history.render();
-    if (id === "toolkit") Cue.toolkit.refresh();
+    if (id === "history" && Cue.history) Cue.history.render();
+    if (id === "toolkit" && Cue.toolkit) Cue.toolkit.refresh();
     try { history.replaceState(null, "", "#" + id); } catch (e) {}
     window.scrollTo(0, 0);
   };
@@ -28,6 +31,7 @@
   function bindTabs() {
     TABS.forEach(function (t, i) {
       var tab = $id("tab-" + t);
+      if (!tab) return;
       tab.addEventListener("click", function () { App.showTab(t); });
       tab.addEventListener("keydown", function (e) {
         var n = null;
@@ -38,7 +42,8 @@
         if (n == null) return;
         e.preventDefault();
         App.showTab(TABS[n]);
-        $id("tab-" + TABS[n]).focus();
+        var nextTab = $id("tab-" + TABS[n]);
+        if (nextTab) nextTab.focus();
       });
     });
   }
@@ -46,50 +51,61 @@
   /* ---------- theme ---------- */
   function applyTheme(t) {
     document.documentElement.setAttribute("data-theme", t);
-    $id("btn-theme").textContent = t === "dark" ? "Light mode" : "Dark mode";
+    var btnTheme = $id("btn-theme");
+    if (btnTheme) btnTheme.textContent = t === "dark" ? "Light mode" : "Dark mode";
   }
 
   /* ---------- settings ---------- */
   App.openSettings = function () {
     var d = $id("settings"), s = U.settings.get();
-    $id("set-key").value = s.accessKey || "";
-    $id("set-demo").checked = !!s.demo;
-    if (typeof d.showModal === "function") { if (!d.open) d.showModal(); }
-    else d.setAttribute("open", "");
-    $id("set-key").focus();
+    var setDemo = $id("set-demo");
+    if (setDemo) setDemo.checked = !!s.demo;
+    if (d) {
+      if (typeof d.showModal === "function") { if (!d.open) d.showModal(); }
+      else d.setAttribute("open", "");
+    }
   };
 
   function closeSettings() {
     var d = $id("settings");
-    if (typeof d.close === "function") d.close(); else d.removeAttribute("open");
+    if (d) {
+      if (typeof d.close === "function") d.close(); else d.removeAttribute("open");
+    }
   }
 
   function saveSettings() {
-    U.settings.set({ accessKey: $id("set-key").value.trim(), demo: $id("set-demo").checked });
+    var setDemo = $id("set-demo");
+    U.settings.set({ demo: setDemo ? setDemo.checked : false });
     closeSettings();
     U.toast("Settings save ho gayi.");
-    Cue.publisher.reload();
+    if (Cue.publisher) Cue.publisher.reload();
   }
 
   App.init = function () {
     var stored = U.store.get(THEME_KEY, "dark");
     applyTheme(stored === "light" ? "light" : "dark");
-    $id("btn-theme").addEventListener("click", function () {
-      var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      U.store.set(THEME_KEY, next);
-      applyTheme(next);
-    });
-    $id("btn-settings").addEventListener("click", App.openSettings);
-    $id("set-save").addEventListener("click", saveSettings);
-    $id("set-cancel").addEventListener("click", closeSettings);
+    var btnTheme = $id("btn-theme");
+    if (btnTheme) {
+      btnTheme.addEventListener("click", function () {
+        var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        U.store.set(THEM_KEY, next);
+        applyTheme(next);
+      });
+    }
+    var btnSettings = $id("btn-settings");
+    if (btnSettings) btnSettings.addEventListener("click", App.openSettings);
+    var setSave = $id("set-save");
+    if (setSave) setSave.addEventListener("click", saveSettings);
+    var setCancel = $id("set-cancel");
+    if (setCancel) setCancel.addEventListener("click", closeSettings);
     bindTabs();
   };
 
   function start() {
-    Cue.ideas.init();
-    Cue.toolkit.init();
-    Cue.history.init();
-    Cue.publisher.init();
+    if (Cue.ideas && Cue.ideas.init) Cue.ideas.init();
+    if (Cue.toolkit && Cue.toolkit.init) Cue.toolkit.init();
+    if (Cue.history && Cue.history.init) Cue.history.init();
+    if (Cue.publisher && Cue.publisher.init) Cue.publisher.init();
     App.init();
     var h = (location.hash || "").replace("#", "");
     App.showTab(TABS.indexOf(h) > -1 ? h : "ideas");
