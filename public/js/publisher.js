@@ -71,20 +71,8 @@
   }
 
   function renderBanner() {
-    var b = state.backend, node = refs.banner;
-    node.replaceChildren();
-    var show = b.mode === "demo" || b.mode === "locked" || b.mode === "error";
-    node.hidden = !show;
-    if (!show) return;
-    node.className = "banner " + (b.mode === "demo" ? "info" : "warn");
-    var text = b.mode === "demo"
-      ? "Demo mode: asli posting nahi hogi, sirf poora flow dikhega. " + (b.message || "")
-      : b.message;
-    node.append(el("p", { text: text }));
-    var row = el("div", { class: "row-wrap" });
-    row.append(el("button", { class: "btn quiet small", type: "button", onclick: function () { Cue.app.openSettings(); } }, "Settings"));
-    row.append(el("button", { class: "btn link small", type: "button", onclick: loadConnections }, "Dobara check karo"));
-    node.append(row);
+    var node = refs.banner;
+    if (node) node.hidden = true; // Banner ko hamesha ke liye hide kar diya
   }
 
   function renderConnLine() {
@@ -610,7 +598,7 @@
     refs.mediaClear.addEventListener("click", function () { clearMedia(false); });
 
     refs.platAll.addEventListener("click", function () {
-      L.PLATFORMS.forEach(function (p) { if (connState(p.id).usable) state.selected[p.id] = true; });
+      L.PLATFORMS.format = L.PLATFORMS.forEach(function (p) { if (connState(p.id).usable) state.selected[p.id] = true; });
       saveDraft(); renderPlatforms(); syncPreviews(); updateActions();
     });
     refs.connRefresh.addEventListener("click", loadConnections);
