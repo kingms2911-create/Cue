@@ -72,7 +72,6 @@
   }
 
   function handleError(e) {
-    if (e && e.code === "unauthorized" && Cue.app) Cue.app.openSettings();
     return A.errorCopy(e);
   }
 
@@ -202,7 +201,7 @@
       return;
     }
     beats.forEach(function (b) { host.append(beatEl(b)); });
-    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: "Script abhi bhi ban rahi hai" }));
+    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: state.scriptText ? "Script abhi bhi ban rahi hai" : "Script ban rahi hai" }));
   }
 
   function scriptAsText() {
