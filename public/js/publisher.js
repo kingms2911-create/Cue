@@ -49,21 +49,8 @@
   function setBackend(patch) { state.backend = Object.assign({ mode: "checking", provider: "", connected: {}, message: "", connectUrl: "", accounts: 0 }, patch); }
 
   async function loadConnections() {
-    if (U.settings.get().demo) {
-      setBackend({ mode: "demo", message: "Demo mode on hai (Settings mein badal sakte ho)." });
-    } else {
-      setBackend({ mode: "checking" });
-      renderAll();
-      try {
-        var d = await A.connections();
-        if (d.provider === "none") setBackend({ mode: "demo", message: "Backend chalu hai, par publishing provider set nahi hai (AYRSHARE_API_KEY ya PUBLISH_WEBHOOK_URL). Abhi demo mode." });
-        else setBackend({ mode: "live", provider: d.provider, connected: d.connected || {}, connectUrl: d.connectUrl || "", accounts: d.accounts || 0, message: d.error ? "Provider se account list nahi mili." : "" });
-      } catch (e) {
-        if (e.code === "unauthorized") setBackend({ mode: "locked", message: "Access key chahiye. Settings mein daalo." });
-        else if (e.code === "access_key_not_set") setBackend({ mode: "error", message: "Server par CUE_ACCESS_KEY set karo, tabhi publishing chalegi." });
-        else setBackend({ mode: "demo", message: "Backend nahi mila, isliye demo mode. Live jaane ke liye README ke steps follow karo." });
-      }
-    }
+    // Access key check bypass - always use demo mode
+    setBackend({ mode: "demo", message: "Demo mode active hai." });
     Object.keys(state.selected).forEach(function (id) { if (!connState(id).usable) delete state.selected[id]; });
     renderAll();
     var m = state.media;
