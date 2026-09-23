@@ -58,43 +58,51 @@
 
     var adCount = Number(U.store.get(AD_PROGRESS_KEY, 0));
 
-    var modal = el("div", { id: "paywall-modal", class: "modal-overlay" },
-      el("div", { class: "modal-card" },
-        el("h3", { text: "⚠️ Free Credits Khatam Ho Gaye!" }),
-        el("p", { text: "Aur ideas generate karne ke liye Pro plan lo ya Ad dekh kar credit pao." }),
-        el("div", { class: "modal-actions" },
-          el("button", { 
-            class: "btn primary", 
-            type: "button", 
-            onclick: function() { 
-              alert("Pro Plan redirection (₹49 se start). Yahan payment gateway integration aayega."); 
-            } 
-          }, "Pro Plan Lo (₹49)"),
-          el("button", { 
-            class: "btn ghost", 
-            type: "button", 
-            onclick: function() {
-              adCount++;
-              if (adCount >= 3) {
-                U.store.set(CREDITS_KEY, 1);
-                U.store.set(AD_PROGRESS_KEY, 0);
-                modal.remove();
-                U.toast("Badhai ho! 3 ads dekhne par 1 credit mil gaya.");
-              } else {
-                U.store.set(AD_PROGRESS_KEY, adCount);
-                alert("Ad dekh rahe ho... (" + adCount + "/3 ads complete). 3 ads hone par 1 credit milega!");
-              }
-            } 
-          }, "Ad Dekho (" + adCount + "/3) -> +1 Credit"),
-          el("button", { 
-            class: "btn quiet", 
-            type: "button", 
-            onclick: function() { modal.remove(); } 
-          }, "Band karo")
-        )
-      )
-    );
-    document.body.append(modal);
+    var modal = document.createElement("div");
+    modal.id = "paywall-modal";
+    modal.style.cssText = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;";
+
+    var card = document.createElement("div");
+    card.style.cssText = "background: #1e1e2f; color: #fff; padding: 24px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-family: inherit;";
+
+    card.innerHTML = 
+      "<h3 style='margin-bottom: 12px; font-size: 20px; color: #ffcc00;'>⚠️ Free Credits Khatam!</h3>" +
+      "<p style='margin-bottom: 16px; font-size: 14px; color: #ccc;'>Aur ideas ke liye Pro plan lo ya neeche Monetag ad dekh kar credit pao.</p>" +
+      
+      // Monetag ad space / container
+      "<div id='monetag-ad-box' style='margin-bottom: 16px; min-height: 50px; background: #2a2a40; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; color: #888;'>[ Monetag Ad Space ]</div>" +
+
+      "<div style='display: flex; flex-direction: column; gap: 10px;'>" +
+        "<button id='btn-pro' style='background: #6366f1; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer;'>Pro Plan Lo (₹49)</button>" +
+        "<button id='btn-ad' style='background: #34d399; color: #111; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer;'>Ad Dekho (" + adCount + "/3) -> +1 Credit</button>" +
+        "<button id='btn-close' style='background: transparent; color: #aaa; border: none; padding: 8px; cursor: pointer;'>Band karo</button>" +
+      "</div>";
+
+    modal.appendChild(card);
+    document.body.appendChild(modal);
+
+    card.querySelector("#btn-pro").onclick = function() {
+      alert("Pro Plan redirection (₹49). Payment gateway integration yahan aayega.");
+    };
+
+    card.querySelector("#btn-ad").onclick = function() {
+      adCount++;
+      if (adCount >= 3) {
+        U.store.set(CREDITS_KEY, 1);
+        U.store.set(AD_PROGRESS_KEY, 0);
+        modal.remove();
+        U.toast("Badhai ho! 3 ads dekhne par 1 credit mil gaya.");
+        renderIdeas();
+      } else {
+        U.store.set(AD_PROGRESS_KEY, adCount);
+        card.querySelector("#btn-ad").textContent = "Ad Dekho (" + adCount + "/3) -> +1 Credit";
+        alert("Ad load ho raha hai... (" + adCount + "/3 complete)");
+      }
+    };
+
+    card.querySelector("#btn-close").onclick = function() {
+      modal.remove();
+    };
   }
 
   /* ---------- brief ---------- */
@@ -168,7 +176,7 @@
     var b = readBrief();
     if (!b.niche) { setFieldError("Ideas ke liye apni niche likho."); nicheEl.focus(); return; }
     
-    // Yahan check lagaya hai taaki agar credits 0 hain toh seedha popup khul jaye
+    // Check credits before generating
     if (getCredits() <= 0) {
       showPaywallPopup();
       return;
