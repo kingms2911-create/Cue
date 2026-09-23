@@ -24,7 +24,6 @@
     </nav>
     <div class="tools">
       <button class="btn quiet small" id="btn-theme" type="button">Light mode</button>
-      <button class="btn quiet small" id="btn-settings" type="button">Settings</button>
     </div>
   </div>
 </header>
@@ -71,47 +70,40 @@
     </div>
   </section>
 
-  <!-- ============ PUBLISH & ACCOUNT / GEM PAYMENT ============ -->
+  <!-- ============ PUBLISH & UPI PAYMENT ============ -->
   <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
     <div class="page-head">
-      <h1>Account Banayein & Gem Payment</h1>
-      <p class="lede">Apna account banakar ya Gems kharidkar unlimited access paayein.</p>
-    </div>
-    
-    <!-- Account Creation & Login Section -->
-    <div id="h-account" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08);">
-      <h3 style="margin-bottom: 8px;">Account Banayein / Login Karein</h3>
-      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 12px;">Apni details daalkar apna naya account secure karein:</p>
-      
-      <div style="margin-bottom: 10px;">
-        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Email Address:</label>
-        <input type="email5" id="acc-email" placeholder="aapka@email.com" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
-      </div>
-      <div style="margin-bottom: 15px;">
-        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Password:</label>
-        <input type="password" id="acc-password" placeholder="••••••••" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <button class="btn primary" id="btn-signup" type="button" style="flex: 1; padding: 10px;">Sign Up</button>
-        <button class="btn quiet" id="btn-login" type="button" style="flex: 1; padding: 10px;">Login</button>
-      </div>
+      <h1>Publish video & UPI Payment</h1>
+      <p class="lede">Video publish karo ya phir Gems / Unlimited Access ke liye UPI payment karo[cite: 2].</p>
     </div>
 
-    <!-- Gem Payment / Pro Plan Unlocking Section -->
+    <!-- Step 1: Payment First Section -->
     <div id="h-upi" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1);">
-      <h3 style="margin-bottom: 8px;">Gem Payment / Pro Unlock (₹49)</h3>
-      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">Aapke 3 free trials khatam ho chuke hain. Gems ya UPI ke zariye ₹49 pay karein aur transaction details bharein:</p>
-      <p style="font-weight: bold; color: #4ade80; margin-bottom: 15px;">UPI / Gem ID: <code>merchant@upi</code></p>
-      
-      <div style="margin-bottom: 12px;">
-        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / Gem Number:</label>
-        <input type="text" id="upi-id-input" placeholder="e.g. user@paytm" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+      <h3 style="margin-bottom: 8px;">Step 1: UPI Payment (₹49)</h3>
+      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 12px;">Pehle niche diye gaye UPI ID par ₹49 pay karein:</p>
+      <div style="background: #111; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 12px; opacity: 0.7; display: block;">Merchant UPI ID:</span>
+          <code style="font-size: 16px; color: #4ade80; font-weight: bold;">merchant@upi</code>[cite: 2]
+        </div>
+        <a href="upi://pay?pa=merchant@upi&am=49&cu=INR&tn=Cue%20Pro%20Unlock" class="btn primary small" style="text-decoration: none; padding: 8px 14px;">Pay Now (₹49)</a>
       </div>
-      <div style="margin-bottom: 15px;">
-        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Transaction ID (UTR / Ref No):</label>
-        <input type="text" id="txn-id-input" placeholder="e.g. 4032XXXXXXXX" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+
+      <!-- Step 2: Verification Form (Appears after payment intention) -->
+      <div id="verification-section" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 15px;">
+        <h3 style="margin-bottom: 8px; font-size: 16px;">Step 2: Payment Verification</h3>
+        <p style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Payment karne ke baad apni details yahan bharein:</p>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / GPay Number[cite: 2]:</label>
+          <input type="text" id="upi-id-input" placeholder="e.g. user@paytm" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Transaction ID (UTR / Ref No)[cite: 2]:</label>
+          <input type="text" id="txn-id-input" placeholder="e.g. 4032XXXXXXXX" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+        </div>
+        <button class="btn primary" id="btn-verify-upi" type="button" style="width: 100%; padding: 12px; font-weight: bold;">Verify & Submit Payment</button>
       </div>
-      <button class="btn primary" id="btn-verify-upi" type="button" style="width: 100%; padding: 12px; font-weight: bold;">Verify Gem Payment</button>
     </div>
 
     <div id="banner" class="banner" hidden></div>
@@ -172,7 +164,7 @@
             <label class="label" for="m-tags">Hashtags</label>
             <input id="m-tags" type="text" autocomplete="off" placeholder="#fitness #homeworkout #reels">
           </div>
-          <p class="hint">Har platform ke liye caption apne aap adjust hota hai (TikTok chhota, X 280 tak, YouTube ka alag title). Neeche edit kar sakte ho.</p>
+          <p class="hint">Har platform ke liye caption apne aap adjust hota hai. Neeche edit kar sakte ho.</p>
         </section>
       </div>
 
@@ -215,7 +207,7 @@
     </div>
   </section>
 
-  <!-- ============ TOOLKIT ============ -->
+  <!-- ============ TOOLKIT (Bio Free) ============ -->
   <section id="panel-toolkit" role="tabpanel" aria-labelledby="tab-toolkit" hidden>
     <div class="page-head">
       <h1>Creator toolkit</h1>
@@ -223,21 +215,19 @@
     </div>
     <div class="tool-grid">
       <section class="block" aria-labelledby="h-bio">
-        <h2 id="h-bio">Instagram bio font generator</h2>
+        <h2 id="h-bio">Instagram bio font generator (Free)[cite: 2]</h2>
         <label class="label" for="bio-in">Apna bio likho</label>
         <textarea id="bio-in" rows="3" placeholder="Aapka Naam | Fitness Coach"></textarea>
-        <p class="sub"><span id="bio-count">0/150</span> characters (Instagram bio limit 150)</p>
+        <p class="sub"><span id="bio-count">0/150</span> characters</p>
         <ul id="bio-out" class="fonts"></ul>
         <h3 class="mini-h">Bio symbols</h3>
         <div id="sym-list" class="syms"></div>
-        <p class="hint">Tip: fancy fonts sirf bio mein use karo. Name field mein mat karo (search mein nahi milega), aur screen reader inhe theek se nahi padhte.</p>
       </section>
       <section class="block" aria-labelledby="h-time">
         <h2 id="h-time">Best video upload time</h2>
         <label class="label" for="tz-sel">Audience ka timezone</label>
         <select id="tz-sel"></select>
         <ul id="time-out" class="times"></ul>
-        <p class="hint">Ye general industry patterns hain, guarantee nahi. 2 se 3 hafte test karo aur apne analytics se compare karo. Slot par tap karo to Publish tab mein schedule set ho jayega.</p>
       </section>
     </div>
   </section>
@@ -249,43 +239,15 @@
       <p class="lede">Kya post kiya, kahan kiya, aur kya fail hua.</p>
     </div>
     <div id="stats" class="stats"></div>
-    <div class="chart-row">
-      <section class="block" aria-labelledby="h-cplat">
-        <h2 id="h-cplat">Platform ke hisaab se</h2>
-        <ul id="chart-plat" class="bars"></ul>
-        <p class="legend"><span class="dot ok"></span>Published <span class="dot info"></span>Scheduled <span class="dot warn"></span>Processing <span class="dot bad"></span>Fail</p>
-      </section>
-      <section class="block" aria-labelledby="h-cweek">
-        <h2 id="h-cweek">Pichhle 7 din</h2>
-        <ul id="chart-week" class="week"></ul>
-      </section>
-    </div>
     <div class="filters" role="group" aria-label="History filter">
       <button class="fchip" type="button" data-filter="all" aria-pressed="true">Sab</button>
       <button class="fchip" type="button" data-filter="done" aria-pressed="false">Published</button>
-      <button class="fchip" type="button" data-filter="scheduled" aria-pressed="false">Scheduled</button>
-      <button class="fchip" type="button" data-filter="failed" aria-pressed="false">Fail</button>
     </div>
     <ul id="hist-list" class="hist"></ul>
     <button id="hist-clear" class="btn link" type="button" hidden>History saaf karo</button>
-    <p class="hint">Views aur likes ke liye platform analytics API chahiye. Abhi ye page sirf Cue se kiye gaye posts ka record dikhata hai, jo is browser mein save rehta hai.</p>
   </section>
 
 </main>
-
-<dialog id="settings" aria-labelledby="set-h">
-  <h2 id="set-h">Settings</h2>
-  <div class="field">
-    <label class="label" for="set-key">Access key <span class="hint">(optional)</span></label>
-    <input id="set-key" type="password" autocomplete="off" placeholder="Khaali chhod do">
-    <p class="hint">Sirf tab bharo jab server par CUE_ACCESS_KEY set ho. Nahi hai to khaali chhod do.</p>
-  </div>
-  <label class="check"><input type="checkbox" id="set-demo"><span>Demo mode (asli posting nahi hogi)</span></label>
-  <div class="row-wrap dialog-actions">
-    <button id="set-save" class="btn primary inline" type="button">Save karo</button>
-    <button id="set-cancel" class="btn quiet" type="button">Band karo</button>
-  </div>
-</dialog>
 
 <div class="toast" id="toast" aria-hidden="true"></div>
 <div class="sr" id="sr" role="status"></div>
@@ -299,13 +261,12 @@
 <script src="js/publisher.js"></script>
 <script src="js/app.js"></script>
 
-<!-- Supabase Auth, Gem Payment & Trials Integration Script -->
+<!-- Supabase & 3 Trials / UPI Integration Script -->
 <script>
   const SUPABASE_URL = 'https://rfxsiiuvqweicpytqsuk.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_StgQ6pQAs0maOgMRpKJF-Q_NfMbjWZq';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // 3 Free Trials Management via localStorage
   function getRemainingTrials() {
     let trials = localStorage.getItem('cue_free_trials');
     if (trials === null) {
@@ -326,84 +287,38 @@
   document.addEventListener('DOMContentLoaded', () => {
     updateTrialDisplay();
 
-    // Hook into brief form submission
+    // Intercept form submission to check 3 trials across services
     const briefForm = document.getElementById('brief');
     if (briefForm) {
       briefForm.addEventListener('submit', (e) => {
-        const trials = getRemainingTrials();
+        let trials = getRemainingTrials();
         if (trials <= 0) {
           e.preventDefault();
-          alert('Pro Plan redirection (Gem Payment). Aapke 3 muft trials khatam ho chuke hain!');
-          return;
+          alert('Aapke 3 free trials khatam ho chuke hain! Kripya Publish tab mein jaakar UPI payment karein.');
+        } else {
+          trials -= 1;
+          localStorage.setItem('cue_free_trials', trials);
+          updateTrialDisplay();
         }
-      }, true);
+      });
     }
 
-    // Intercept alerts to redirect to Publish tab and UPI/Gem Payment section
+    // Intercept alert for trial expiry redirect to payment
     const originalAlert = window.alert;
     window.alert = function(msg) {
-      if (msg && (msg.includes('Pro Plan redirection') || msg.includes('trials khatam'))) {
+      if (msg && msg.includes('khatam ho chuke hain')) {
         const pubTab = document.getElementById('tab-publish');
         if (pubTab) pubTab.click();
-        
         setTimeout(() => {
-          const upiSection = document.getElementById('h-upi');
-          if (upiSection) {
-            upiSection.scrollIntoView({ behavior: 'smooth' });
-          }
+          const upiSec = document.getElementById('h-upi');
+          if (upiSec) upiSec.scrollIntoView({ behavior: 'smooth' });
         }, 300);
         return;
       }
       originalAlert(msg);
     };
 
-    // Supabase Sign Up Handler
-    const signUpBtn = document.getElementById('btn-signup');
-    if (signUpBtn) {
-      signUpBtn.addEventListener('click', async () => {
-        const email = document.getElementById('acc-email').value.trim();
-        const password = document.getElementById('acc-password').value.trim();
-
-        if (!email || !password) {
-          alert('Kripya Email aur Password dono bharein!');
-          return;
-        }
-
-        try {
-          const { data, error } = await supabaseClient.auth.signUp({ email, password });
-          if (error) throw error;
-          alert('Sign-up successful! Kripya apna email verify karein.');
-        } catch (err) {
-          console.error('Sign-up error:', err.message);
-          alert('Error: ' + err.message);
-        }
-      });
-    }
-
-    // Supabase Login Handler
-    const loginBtn = document.getElementById('btn-login');
-    if (loginBtn) {
-      loginBtn.addEventListener('click', async () => {
-        const email = document.getElementById('acc-email').value.trim();
-        const password = document.getElementById('acc-password').value.trim();
-
-        if (!email || !password) {
-          alert('Kripya Email aur Password dono bharein!');
-          return;
-        }
-
-        try {
-          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          alert('Login safal raha!');
-        } catch (err) {
-          console.error('Login error:', err.message);
-          alert('Error: ' + err.message);
-        }
-      });
-    }
-
-    // Supabase Gem Payment Verification Handler
+    // Supabase UPI Payment Verification Handler
     const verifyBtn = document.getElementById('btn-verify-upi');
     if (verifyBtn) {
       verifyBtn.addEventListener('click', async () => {
@@ -411,7 +326,7 @@
         const txnId = document.getElementById('txn-id-input').value.trim();
 
         if (!upiId || !txnId) {
-          alert('Kripya apni UPI ID aur Transaction ID dono bharein!');
+          alert('Kripya apna UPI ID aur Transaction ID dono bharein!');
           return;
         }
 
@@ -419,12 +334,12 @@
           const { data, error } = await supabaseClient
             .from('payments')
             .insert([
-              { upi_id: upiId, txn_id: txnId, status: 'pending_gem_verification', created_at: new Date() }
+              { upi_id: upiId, txn_id: txnId, status: 'pending_verification', created_at: new Date() }
             ]);
 
           if (error) throw error;
 
-          alert('Gem payment details submit ho gayi hain! Verification ke baad account mein unlimited access mil jayega.');
+          alert('UPI Payment details safalta purvak submit ho gayi hain! Verification ke baad account unlock ho jayega.');
           document.getElementById('upi-id-input').value = '';
           document.getElementById('txn-id-input').value = '';
         } catch (err) {
