@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Supabase SDK CDN Added -->
+  <!-- Supabase SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -35,7 +35,7 @@
       <div class="layout">
         <section class="panel-form" aria-labelledby="h1">
           <h1 id="h1">Agla video kya banana hai?</h1>
-          <p class="lede">Apni niche batao. 10 video ideas lo, phir ek script jo aaj hi record kar sako.</p>
+          <p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako.</p>
           <form id="brief" novalidate>
             <fieldset class="field">
               <legend class="label">Kahan post karoge?</legend>
@@ -58,15 +58,15 @@
               <legend class="label">Tone</legend>
               <div class="chips">
                 <label class="chip"><input type="radio" name="tone" value="Educational" checked><span>Sikhane wali</span></label>
-                <label class="chip"><input type="radio" name="tone" value="Funny"><span>Funny</span></label>
-                <label class="chip"><input type="radio" name="tone" value="Inspiring"><span>Inspiring</span></label>
-                <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span>Seedha-seedha</span></label>
+                <label class="chip"><input type="radio" name="chip" value="Funny"><span>Funny</span></label>
+                <label class="chip"><input type="radio" name="chip" value="Inspiring"><span>Inspiring</span></label>
+                <label class="chip"><input type="radio" name="chip" value="Straight-talking"><span>Seedha-seedha</span></label>
               </div>
             </fieldset>
-            <button class="btn primary" id="go" type="submit">10 ideas lo</button>
+            <button class="btn primary" id="go" type="submit">Idea aur Script lo</button>
           </form>
         </section>
-        <section class="results" id="results" tabindex="-1" aria-label="Ideas aur script"></section>
+        <section class="results" id="results" tabindex="-1" aria-label="Idea aur script"></section>
       </div>
     </section>
 
@@ -105,13 +105,45 @@
     </section>
   </main>
 
-  <!-- Supabase Initialization & UPI Handler Script -->
+  <!-- Complete App & Supabase Script -->
   <script>
+    // Supabase Setup
     const SUPABASE_URL = 'https://rfxsiiuvqweicpytqsuk.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_StgQ6pQAs0maOgMRpKJF-Q_NfMbjWZq';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Intercept old Pro Plan alert and redirect to UPI section smoothly
+    // Tab Navigation Logic
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.setAttribute('aria-selected', 'false');
+          const panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = true;
+        });
+        tab.setAttribute('aria-selected', 'true');
+        const targetPanel = document.getElementById(tab.getAttribute('aria-controls'));
+        if (targetPanel) targetPanel.hidden = false;
+      });
+    });
+
+    // Theme Switcher Logic
+    const themeBtn = document.getElementById('btn-theme');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+          html.setAttribute('data-theme', 'light');
+          themeBtn.textContent = 'Dark mode';
+        } else {
+          html.setAttribute('data-theme', 'dark');
+          themeBtn.textContent = 'Light mode';
+        }
+      });
+    }
+
+    // Intercept Pro Plan alert and redirect to UPI section smoothly
     const originalAlert = window.alert;
     window.alert = function(msg) {
       if (msg && msg.includes('Pro Plan redirection')) {
@@ -129,6 +161,34 @@
       originalAlert(msg);
     };
 
+    // Form submission & Single Idea + Script Generation Logic
+    document.getElementById('brief').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nicheInput = document.getElementById('niche');
+      const nicheError = document.getElementById('niche-error');
+      const resultsDiv = document.getElementById('results');
+
+      if (!nicheInput.value.trim()) {
+        nicheError.textContent = 'Kripya apni niche likhein!';
+        nicheError.hidden = false;
+        nicheInput.focus();
+        return;
+      }
+      nicheError.hidden = true;
+
+      const niche = nicheInput.value.trim();
+      resultsDiv.innerHTML = `<h3>Aapka Top Idea (${niche}):</h3>` +
+        `<div style="margin-top: 10px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">` +
+        `<p style="font-weight: bold; font-size: 15px;">💡 ${niche} par sabse asar daar aur viral hone wala unique angle!</p>` +
+        `</div>` +
+        `<div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">` +
+        `<h4>Ready-to-Record Script:</h4>` +
+        `<p style="margin-top: 8px; font-size: 14px; opacity: 0.9; line-height: 1.5;">"Agar aap bhi ${niche} me struggle kar rahe ho, toh yeh video sirf aapke liye hai! Aaj hum baat karenge ek aise tareeqe ki jo aapka kaam behad asan kar dega..."</p>` +
+        `</div>`;
+      resultsDiv.focus();
+    });
+
+    // Supabase UPI Payment Verification Handler
     document.addEventListener('DOMContentLoaded', () => {
       const verifyBtn = document.getElementById('btn-verify-upi');
       if (verifyBtn) {
