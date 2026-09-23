@@ -168,7 +168,8 @@
     var b = readBrief();
     if (!b.niche) { setFieldError("Ideas ke liye apni niche likho."); nicheEl.focus(); return; }
     
-    if (!append && getCredits() <= 0) {
+    // Yahan check lagaya hai taaki agar credits 0 hain toh seedha popup khul jaye
+    if (getCredits() <= 0) {
       showPaywallPopup();
       return;
     }
@@ -286,7 +287,7 @@
       return;
     }
     beats.forEach(function (b) { host.append(beatEl(b)); });
-    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: "Script abhi bhi ban rahi hai" }));
+    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: state.scriptBusy ? "Script abhi bhi ban rahi hai" : "Script ban rahi hai" }));
   }
 
   function scriptAsText() {
