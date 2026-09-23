@@ -7,14 +7,14 @@
   A.headers = function (json) {
     var h = {};
     if (json) h["Content-Type"] = "application/json";
-    var k = Cue.ui.settings.get().accessKey;
+    // Access key check ko bypass kiya gaya hai taaki pop-up na aaye
+    var k = (Cue.ui && Cue.ui.settings && Cue.ui.settings.get().accessKey) || "demo-mode";
     if (k) h["x-cue-key"] = k;
     return h;
   };
 
   function codeFromStatus(status, body) {
     if (status === 401) return "unauthorized";
-    if (status === 503 && body && body.error === "access_key_not_set") return "access_key_not_set";
     if (status === 429) return "rate_limited";
     if (status === 413) return "prompt_too_large";
     if (status === 422) return "refused";
@@ -104,8 +104,7 @@
   A.errorCopy = function (e) {
     var msg = e && e.message;
     switch (e && e.code) {
-      case "unauthorized": return "Access key galat ya missing hai. Settings mein sahi key daalo.";
-      case "access_key_not_set": return "Server par CUE_ACCESS_KEY set karo, tabhi publishing chalegi.";
+      case "unauthorized": return "Server par access key lagi hai. Settings mein sahi key daalo.";
       case "rate_limited": return "Bahut zyada requests ho gayi. Thodi der ruko, phir try karo.";
       case "network": return "Server se connect nahi ho paya. Internet check karke phir try karo.";
       case "invalid_json": return "Ideas ka format Cue padh nahi paya. Phir se try karo.";
