@@ -16,7 +16,6 @@
     <span class="wordmark">Cue</span>
     <nav class="tabs" role="tablist" aria-label="Cue sections">
       <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
-      <button class="tab" role="tab" id="tab-vibescript" aria-controls="panel-vibescript" aria-selected="false" tabindex="-1">VibeScript</button>
       <button class="tab" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
       <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
       <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
@@ -32,16 +31,10 @@
 
   <!-- ============ IDEAS ============ -->
   <section id="panel-ideas" role="tabpanel" aria-labelledby="tab-ideas">
-    <!-- Top Header Ad Slot -->
-    <div class="ad-slot ad-header" style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-      <small style="opacity:0.6;">Advertisement (Top Header)</small>
-      <!-- Yahan apna Monetag Header Banner Code daalein -->
-    </div>
-
     <div class="layout">
       <section class="panel-form" aria-labelledby="h1">
         <h1 id="h1">Agla video kya banana hai?</h1>
-        <p class="lede">Apni niche batao. 10 video ideas lo, phir ek script jo aaj hi record kar sako[cite: 1].</p>
+        <p class="lede">Apni niche batao. 1 video idea lo, phir ek script jo aaj hi record kar sako.</p>
         <form id="brief" novalidate>
           <fieldset class="field">
             <legend class="label">Kahan post karoge?</legend>
@@ -69,72 +62,10 @@
               <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
             </div>
           </fieldset>
-          
-          <!-- Middle In-Content Ad Slot -->
-          <div class="ad-slot ad-middle" style="text-align:center; margin:15px 0; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-            <small style="opacity:0.6;">Advertisement (Middle In-Content)</small>
-            <!-- Yahan apna Monetag Native/Banner Code daalein -->
-          </div>
-
-          <button class="btn primary" id="go" type="submit">10 ideas lo</button>
+          <button class="btn primary" id="go" type="submit">Idea do</button>
         </form>
       </section>
       <section class="results" id="results" tabindex="-1" aria-label="Ideas aur script"></section>
-    </div>
-
-    <!-- Bottom Footer Ad Slot -->
-    <div class="ad-slot ad-footer" style="text-align:center; margin-top:20px; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-      <small style="opacity:0.6;">Advertisement (Bottom Footer)</small>
-      <!-- Yahan apna Monetag Footer Banner Code daalein -->
-    </div>
-  </section>
-
-  <!-- ============ VIBESCRIPT (NEW TAB) ============ -->
-  <section id="panel-vibescript" role="tabpanel" aria-labelledby="tab-vibescript" hidden>
-    <!-- Top Header Ad Slot -->
-    <div class="ad-slot ad-header" style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-      <small style="opacity:0.6;">Advertisement (Top Header)</small>
-    </div>
-
-    <div class="page-head">
-      <h1>VibeScript AI</h1>
-      <p class="lede">Kisi bhi viral video ya reel ka link do. Uski exact vibe aur pacing par 100% unique, plagiarism-free script pao.</p>
-    </div>
-
-    <div class="layout" style="display:block; max-width:800px; margin:0 auto;">
-      <section class="block" style="padding:20px; background:var(--card-bg, #1e1e1e); border-radius:12px;">
-        <div class="field">
-          <label class="label" for="vibe-url">YouTube Video ya Instagram Reel ka Link</label>
-          <input id="vibe-url" type="url" placeholder="https://www.instagram.com/reel/... ya https://youtube.com/shorts/..." style="width:100%; padding:10px;">
-        </div>
-
-        <!-- Middle Native Ad Slot -->
-        <div class="ad-slot ad-middle" style="text-align:center; margin:15px 0; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-          <small style="opacity:0.6;">Advertisement (Middle Native)</small>
-        </div>
-
-        <div class="row-wrap" style="margin-top:15px; display:flex; gap:10px; align-items:center;">
-          <button id="btn-generate-vibe" class="btn primary" type="button">VibeScript Generate Karo</button>
-          <span id="vibe-limit-status" class="sub" style="font-size:13px;">Daily Limit: 1 Free | Trial Available: 1</span>
-        </div>
-
-        <!-- Rewarded Multi-Step Popup / Container (Hidden by default) -->
-        <div id="reward-modal-container" style="display:none; margin-top:20px; padding:15px; background:rgba(255,165,0,0.1); border:1px solid orange; border-radius:8px; text-align:center;">
-          <h3 style="color:orange; margin-bottom:5px;">Aapka Free Limit Khatam Ho Chuka Hai!</h3>
-          <p id="reward-step-text" style="font-size:14px; margin-bottom:10px;">Unique VibeScript paane ke liye 3 ads complete karein: (Ad 1/3 dekhiye)</p>
-          <button id="btn-watch-ad" class="btn primary small" type="button">Ad Dekhein & Next Badhein</button>
-        </div>
-
-        <div id="vibe-output-container" style="margin-top:20px;" hidden>
-          <h3 style="margin-bottom:10px;">Aapki Unique Vibe-Matched Script:</h3>
-          <textarea id="vibe-result-text" rows="8" style="width:100%; padding:10px;" readonly></textarea>
-        </div>
-      </section>
-    </div>
-
-    <!-- Bottom Footer Ad Slot -->
-    <div class="ad-slot ad-footer" style="text-align:center; margin-top:20px; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.1); border-radius:8px;">
-      <small style="opacity:0.6;">Advertisement (Bottom Footer)</small>
     </div>
   </section>
 
@@ -142,7 +73,7 @@
   <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
     <div class="page-head">
       <h1>Ek click mein sab jagah post karo</h1>
-      <p class="lede">Video chuno, platforms select karo, caption check karo, phir publish ya schedule[cite: 1].</p>
+      <p class="lede">Video chuno, platforms select karo, caption check karo, phir publish ya schedule.</p>
     </div>
     <div id="banner" class="banner" hidden></div>
 
@@ -249,7 +180,7 @@
   <section id="panel-toolkit" role="tabpanel" aria-labelledby="tab-toolkit" hidden>
     <div class="page-head">
       <h1>Creator toolkit</h1>
-      <p class="lede">Instagram bio ke liye fancy fonts aur har platform ka best posting time[cite: 1].</p>
+      <p class="lede">Instagram bio ke liye fancy fonts aur har platform ka best posting time.</p>
     </div>
     <div class="tool-grid">
       <section class="block" aria-labelledby="h-bio">
@@ -276,7 +207,7 @@
   <section id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
     <div class="page-head">
       <h1>Publishing history</h1>
-      <p class="lede">Kya post kiya, kahan kiya, aur kya fail hua[cite: 1].</p>
+      <p class="lede">Kya post kiya, kahan kiya, aur kya fail hua.</p>
     </div>
     <div id="stats" class="stats"></div>
     <div class="chart-row">
