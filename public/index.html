@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Supabase SDK CDN Added -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header class="topbar">
@@ -34,7 +36,7 @@
     <div class="layout">
       <section class="panel-form" aria-labelledby="h1">
         <h1 id="h1">Agla video kya banana hai?</h1>
-        <p class="lede">Apni niche batao. 1 video idea lo, phir ek script jo aaj hi record kar sako.</p>
+        <p class="lede">Apni niche batao. 10 video ideas lo, phir ek script jo aaj hi record kar sako.</p>
         <form id="brief" novalidate>
           <fieldset class="field">
             <legend class="label">Kahan post karoge?</legend>
@@ -62,7 +64,7 @@
               <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
             </div>
           </fieldset>
-          <button class="btn primary" id="go" type="submit">Idea do</button>
+          <button class="btn primary" id="go" type="submit">10 ideas lo</button>
         </form>
       </section>
       <section class="results" id="results" tabindex="-1" aria-label="Ideas aur script"></section>
@@ -162,6 +164,25 @@
           </div>
         </section>
 
+        <!-- Direct UPI Payment Section -->
+        <section class="block" aria-labelledby="h-upi">
+          <h2 id="h-upi">Pro Unlock (Direct UPI Payment)</h2>
+          <p class="sub">QR code scan karke ya UPI ID par payment karein, aur Transaction ID yahan daalkar verify karein.</p>
+          <div class="field">
+            <label class="label">Scan & Pay (UPI)</label>
+            <p style="font-size: 0.9rem; color: var(--text-dim, #aaa);">UPI ID: <code>your-upi@oksbi</code></p>
+          </div>
+          <div class="field">
+            <label class="label" for="upi-id-input">Aapki UPI ID</label>
+            <input id="upi-id-input" type="text" placeholder="username@okhdfcbank">
+          </div>
+          <div class="field">
+            <label class="label" for="txn-id-input">UPI Transaction / UTR Reference ID</label>
+            <input id="txn-id-input" type="text" placeholder="12-digit UTR number">
+          </div>
+          <button id="btn-verify-upi" class="btn primary" type="button">Payment Verify Karein</button>
+        </section>
+
         <section id="status-block" class="block status-block" aria-labelledby="h-status" hidden>
           <h2 id="h-status">Publish status</h2>
           <div id="status-bar" class="bar" role="progressbar" aria-label="Publishing progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="status-fill"></span></div>
@@ -250,6 +271,45 @@
 
 <div class="toast" id="toast" aria-hidden="true"></div>
 <div class="sr" id="sr" role="status"></div>
+
+<!-- Supabase Initialization & UPI Handler Script -->
+<script>
+  const SUPABASE_URL = 'https://rfxsiiuvqweicpytqsuk.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_StgQ6pQAs0maOgMRpKJF-Q_NfMbjWZq';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const verifyBtn = document.getElementById('btn-verify-upi');
+    if (verifyBtn) {
+      verifyBtn.addEventListener('click', async () => {
+        const upiId = document.getElementById('upi-id-input').value.trim();
+        const txnId = document.getElementById('txn-id-input').value.trim();
+
+        if (!upiId || !txnId) {
+          alert('Kripya apni UPI ID aur Transaction ID dono bharein!');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabaseClient
+            .from('payments')
+            .insert([
+              { upi_id: upiId, txn_id: txnId, status: 'pending_verification', created_at: new Date() }
+            ]);
+
+          if (error) throw error;
+
+          alert('Payment details submit ho gayi hain! Verification ke baad plan unlock ho jayega.');
+          document.getElementById('upi-id-input').value = '';
+          document.getElementById('txn-id-input').value = '';
+        } catch (err) {
+          console.error('Supabase error:', err.message);
+          alert('Error: ' + err.message);
+        }
+      });
+    }
+  });
+</script>
 
 <script src="js/lib.js"></script>
 <script src="js/ui.js"></script>
