@@ -7,17 +7,17 @@
 
   var FORMATS = {
     yt: {
-      label: "YouTube video", short: "YouTube videos", length: "5 to 10 minutes", lengthHi: "5 se 10 minute",
+      label: "YouTube video", short: "YouTube video", length: "5 to 10 minutes", lengthHi: "5 se 10 minute",
       structure: "Open with a hook in the first 20 seconds that states the payoff or a bold claim. Then a promise, 3 to 4 main points each with a concrete example, one pattern interrupt around the middle, a payoff, and a call to action that asks for one specific thing. Aim for about 1,100 spoken words.",
       finalBeat: "The last beat is '## Packaging | Post' with TEXT lines: three alternative titles under 60 characters, one thumbnail idea, and a two-sentence description opener."
     },
     short: {
-      label: "YouTube Short", short: "YouTube Shorts", length: "under 60 seconds", lengthHi: "60 second se kam",
+      label: "YouTube Short", short: "YouTube Short", length: "under 60 seconds", lengthHi: "60 second se kam",
       structure: "Vertical video. A hook in the first 3 seconds, 3 to 5 quick beats with a visual change every 3 to 5 seconds, a payoff, and a closing line that loops back to the hook. Aim for 110 to 140 spoken words.",
       finalBeat: "The last beat is '## Caption | Post' with TEXT lines: a caption under 150 characters and 5 to 8 relevant hashtags."
     },
     reel: {
-      label: "Instagram Reel", short: "Instagram Reels", length: "20 to 45 seconds", lengthHi: "20 se 45 second",
+      label: "Instagram Reel", short: "Instagram Reel", length: "20 to 45 seconds", lengthHi: "20 se 45 second",
       structure: "Vertical video. A hook in the first 2 seconds, 3 to 4 beats with fast visual changes, a payoff, and a call to action that asks viewers to save or share. Aim for 70 to 110 spoken words.",
       finalBeat: "The last beat is '## Caption | Post' with TEXT lines: a caption under 150 characters and 5 to 8 relevant hashtags."
     }
@@ -26,10 +26,77 @@
   var TONE_LABELS = { "Educational": "sikhane wala", "Funny": "funny", "Inspiring": "inspiring", "Straight-talking": "seedha-seedha" };
   var LANG_NOTE = "Hinglish. Write Hindi in Roman (English) letters mixed naturally with English words, the way Indian creators talk on YouTube and Instagram. Never use Devanagari script. Keep it casual and conversational, not textbook Hindi.";
   var PREF_KEY = "cue:brief";
+  var CREDITS_KEY = "cue:free_credits";
+  var AD_PROGRESS_KEY = "cue:ad_progress";
 
   var state = { brief: null, ideas: [], selected: null, view: "ideas", ideasBusy: false, scriptBusy: false, scriptText: "", truncated: false, error: "" };
   var scriptCtl = null;
   var results, form, nicheEl, audienceEl, nicheError;
+
+  /* ---------- credits & popup ---------- */
+  function getCredits() {
+    var c = U.store.get(CREDITS_KEY, null);
+    if (c === null) {
+      c = 3; // Naye user ko 3 free credits milenge
+      U.store.set(CREDITS_KEY, c);
+    }
+    return Number(c);
+  }
+
+  function useCredit() {
+    var c = getCredits();
+    if (c > 0) {
+      U.store.set(CREDITS_KEY, c - 1);
+      return true;
+    }
+    return false;
+  }
+
+  function showPaywallPopup() {
+    // Agar popup pehle se hai toh hata do
+    var old = document.getElementById("paywall-modal");
+    if (old) old.remove();
+
+    var adCount = Number(U.store.get(AD_PROGRESS_KEY, 0));
+
+    var modal = el("div", { id: "paywall-modal", class: "modal-overlay" },
+      el("div", { class: "modal-card" },
+        el("h3", { text: "⚠️ Free Credits Khatam Ho Gaye!" }),
+        el("p", { text: "Aur ideas generate karne ke liye Pro plan lo ya Ad dekh kar credit pao." }),
+        el("div", { class: "modal-actions" },
+          el("button", { 
+            class: "btn primary", 
+            type: "button", 
+            onclick: function() { 
+              alert("Pro Plan redirection (₹49 se start). Yahan payment gateway integration aayega."); 
+            } 
+          }, "Pro Plan Lo (₹49)"),
+          el("button", { 
+            class: "btn ghost", 
+            type: "button", 
+            onclick: function() {
+              adCount++;
+              if (adCount >= 3) {
+                U.store.set(CREDITS_KEY, 1);
+                U.store.set(AD_PROGRESS_KEY, 0);
+                modal.remove();
+                U.toast("Badhai ho! 3 ads dekhne par 1 credit mil gaya.");
+              } else {
+                U.store.set(AD_PROGRESS_KEY, adCount);
+                alert("Ad dekh rahe ho... (" + adCount + "/3 ads complete). 3 ads hone par 1 credit milega!");
+              }
+            } 
+          }, "Ad Dekho (" + adCount + "/3) -> +1 Credit"),
+          el("button", { 
+            class: "btn quiet", 
+            type: "button", 
+            onclick: function() { modal.remove(); } 
+          }, "Band karo")
+        )
+      )
+    );
+    document.body.append(modal);
+  }
 
   /* ---------- brief ---------- */
   function readBrief() {
@@ -79,12 +146,12 @@
   function ideasPrompt(b, avoid) {
     return "You are a sharp content strategist for YouTube and Instagram creators.\n\n" +
       "Creator brief:\n" + briefLines(b) + "\n\n" +
-      "Give 10 distinct video ideas for this creator. Mix formats: tutorial, story, myth-busting, list, challenge, behind the scenes, comparison. Each idea has:\n" +
+      "Give 1 distinct high-performing video idea for this creator. The idea has:\n" +
       "- title: under 70 characters, works as a real title\n" +
       "- hook: the literal first sentence the creator says, under 20 words, no clickbait lies\n" +
       "- angle: one sentence on why a viewer stops or clicks, and what makes it different from generic advice in this niche\n\n" +
       (avoid.length ? "Do not repeat or closely echo these earlier titles:\n" + avoid.join("\n") + "\n\n" : "") +
-      "Write every value in Hinglish, but keep the JSON keys exactly as shown. Reply with only a JSON array of 10 objects, like [{\"title\":\"...\",\"hook\":\"...\",\"angle\":\"...\"}].";
+      "Write every value in Hinglish, but keep the JSON keys exactly as shown. Reply with only a JSON array of 1 object, like [{\"title\":\"...\",\"hook\":\"...\",\"angle\":\"...\"}].";
   }
 
   function normalizeIdea(x) {
@@ -101,9 +168,26 @@
   async function getIdeas(append) {
     var b = readBrief();
     if (!b.niche) { setFieldError("Ideas ke liye apni niche likho."); nicheEl.focus(); return; }
+    
+    // Check credits before generating
+    if (!append && getCredits() <= 0) {
+      showPaywallPopup();
+      return;
+    }
+
     setFieldError("");
     if (state.ideasBusy) return;
-    if (!append) { state.brief = b; state.ideas = []; U.store.set(PREF_KEY, b); }
+
+    if (!append) {
+      if (!useCredit()) {
+        showPaywallPopup();
+        return;
+      }
+      state.brief = b; 
+      state.ideas = []; 
+      U.store.set(PREF_KEY, b);
+    }
+
     var brief = state.brief || b;
     state.view = "ideas";
     state.error = "";
@@ -122,7 +206,7 @@
       });
       if (!fresh.length) throw { code: "invalid_json" };
       state.ideas = state.ideas.concat(fresh);
-      U.announce(fresh.length + " ideas ready hain.");
+      U.announce(fresh.length + " idea ready hai.");
     } catch (e) {
       state.error = handleError(e);
     } finally {
@@ -135,15 +219,18 @@
     state.view = "ideas";
     results.replaceChildren();
     results.setAttribute("aria-busy", state.ideasBusy ? "true" : "false");
+    
+    var creditsLeft = getCredits();
+
     if (!state.ideas.length && !state.ideasBusy && !state.error) {
       results.append(el("div", { class: "empty" },
         el("strong", { text: "Abhi koi idea nahi" }),
-        el("p", { text: "Niche likho aur format chuno. Yahan 10 ideas dikhenge." })));
+        el("p", { text: "Niche likho aur format chuno. Free credits bache hain: " + creditsLeft })));
       return;
     }
     if (state.ideas.length && state.brief) {
       results.append(
-        el("h2", { class: "res-title", text: state.ideas.length + " ideas " + FORMATS[state.brief.fmt].short + " ke liye" }),
+        el("h2", { class: "res-title", text: "Idea " + FORMATS[state.brief.fmt].short + " ke liye (Credits bache: " + creditsLeft + ")" }),
         el("p", { class: "sub", text: state.brief.niche }));
       var ul = el("ul", { class: "ideas" });
       state.ideas.forEach(function (idea) {
@@ -155,10 +242,10 @@
       });
       results.append(ul);
     }
-    if (state.ideasBusy) results.append(el("p", { class: "thinking", text: "Ideas ban rahe hain" }));
+    if (state.ideasBusy) results.append(el("p", { class: "thinking", text: "Idea ban raha hai..." }));
     if (state.error) results.append(el("p", { class: "error", role: "alert", text: state.error }));
     if (state.ideas.length && !state.ideasBusy) {
-      results.append(el("button", { class: "btn quiet more", type: "button", onclick: function () { getIdeas(true); } }, "Aur ideas lo"));
+      results.append(el("button", { class: "btn quiet more", type: "button", onclick: function () { getIdeas(true); } }, "Aur ek idea lo"));
     }
   }
 
@@ -201,7 +288,7 @@
       return;
     }
     beats.forEach(function (b) { host.append(beatEl(b)); });
-    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: state.scriptText ? "Script abhi bhi ban rahi hai" : "Script ban rahi hai" }));
+    if (state.scriptBusy) host.append(el("p", { class: "thinking", text: "Script abhi bhi ban rahi hai" }));
   }
 
   function scriptAsText() {
