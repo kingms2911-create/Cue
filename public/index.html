@@ -71,28 +71,47 @@
     </div>
   </section>
 
-  <!-- ============ PUBLISH & UPI PAYMENT ============ -->
+  <!-- ============ PUBLISH & ACCOUNT / GEM PAYMENT ============ -->
   <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
     <div class="page-head">
-      <h1>Ek click mein sab jagah post karo</h1>
-      <p class="lede">Video chuno, platforms select karo, caption check karo, phir publish ya schedule.</p>
+      <h1>Account Banayein & Gem Payment</h1>
+      <p class="lede">Apna account banakar ya Gems kharidkar unlimited access paayein.</p>
     </div>
     
-    <!-- Direct UPI Payment Section Integration -->
+    <!-- Account Creation & Login Section -->
+    <div id="h-account" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08);">
+      <h3 style="margin-bottom: 8px;">Account Banayein / Login Karein</h3>
+      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 12px;">Apni details daalkar apna naya account secure karein:</p>
+      
+      <div style="margin-bottom: 10px;">
+        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Email Address:</label>
+        <input type="email5" id="acc-email" placeholder="aapka@email.com" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Password:</label>
+        <input type="password" id="acc-password" placeholder="••••••••" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn primary" id="btn-signup" type="button" style="flex: 1; padding: 10px;">Sign Up</button>
+        <button class="btn quiet" id="btn-login" type="button" style="flex: 1; padding: 10px;">Login</button>
+      </div>
+    </div>
+
+    <!-- Gem Payment / Pro Plan Unlocking Section -->
     <div id="h-upi" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1);">
-      <h3 style="margin-bottom: 8px;">Pro Plan Unlocking (₹49) - Free Trials Khatam!</h3>
-      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">Aapke 3 free trials poore ho chuke hain. Unlimited access ke liye neeche diye gaye UPI ID par ₹49 pay karein aur transaction details bharein:</p>
-      <p style="font-weight: bold; color: #4ade80; margin-bottom: 15px;">UPI ID: <code>merchant@upi</code></p>
+      <h3 style="margin-bottom: 8px;">Gem Payment / Pro Unlock (₹49)</h3>
+      <p style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">Aapke 3 free trials khatam ho chuke hain. Gems ya UPI ke zariye ₹49 pay karein aur transaction details bharein:</p>
+      <p style="font-weight: bold; color: #4ade80; margin-bottom: 15px;">UPI / Gem ID: <code>merchant@upi</code></p>
       
       <div style="margin-bottom: 12px;">
-        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / GPay / PhonePe number:</label>
+        <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / Gem Number:</label>
         <input type="text" id="upi-id-input" placeholder="e.g. user@paytm" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
       </div>
       <div style="margin-bottom: 15px;">
         <label style="font-size: 13px; display: block; margin-bottom: 4px;">Transaction ID (UTR / Ref No):</label>
         <input type="text" id="txn-id-input" placeholder="e.g. 4032XXXXXXXX" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
       </div>
-      <button class="btn primary" id="btn-verify-upi" type="button" style="width: 100%; padding: 12px; font-weight: bold;">Verify & Unlock Pro</button>
+      <button class="btn primary" id="btn-verify-upi" type="button" style="width: 100%; padding: 12px; font-weight: bold;">Verify Gem Payment</button>
     </div>
 
     <div id="banner" class="banner" hidden></div>
@@ -280,7 +299,7 @@
 <script src="js/publisher.js"></script>
 <script src="js/app.js"></script>
 
-<!-- Supabase & 3 Trials / Vibe Script & UPI Integration Script -->
+<!-- Supabase Auth, Gem Payment & Trials Integration Script -->
 <script>
   const SUPABASE_URL = 'https://rfxsiiuvqweicpytqsuk.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_StgQ6pQAs0maOgMRpKJF-Q_NfMbjWZq';
@@ -307,20 +326,20 @@
   document.addEventListener('DOMContentLoaded', () => {
     updateTrialDisplay();
 
-    // Hook into the brief form or generate button
+    // Hook into brief form submission
     const briefForm = document.getElementById('brief');
     if (briefForm) {
       briefForm.addEventListener('submit', (e) => {
         const trials = getRemainingTrials();
         if (trials <= 0) {
           e.preventDefault();
-          alert('Pro Plan redirection (£49). Aapke 3 muft trials khatam ho chuke hain!');
+          alert('Pro Plan redirection (Gem Payment). Aapke 3 muft trials khatam ho chuke hain!');
           return;
         }
       }, true);
     }
 
-    // Intercept Pro Plan alert redirection to Publish tab & UPI Section
+    // Intercept alerts to redirect to Publish tab and UPI/Gem Payment section
     const originalAlert = window.alert;
     window.alert = function(msg) {
       if (msg && (msg.includes('Pro Plan redirection') || msg.includes('trials khatam'))) {
@@ -338,7 +357,53 @@
       originalAlert(msg);
     };
 
-    // Supabase UPI Payment Verification Handler
+    // Supabase Sign Up Handler
+    const signUpBtn = document.getElementById('btn-signup');
+    if (signUpBtn) {
+      signUpBtn.addEventListener('click', async () => {
+        const email = document.getElementById('acc-email').value.trim();
+        const password = document.getElementById('acc-password').value.trim();
+
+        if (!email || !password) {
+          alert('Kripya Email aur Password dono bharein!');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabaseClient.auth.signUp({ email, password });
+          if (error) throw error;
+          alert('Sign-up successful! Kripya apna email verify karein.');
+        } catch (err) {
+          console.error('Sign-up error:', err.message);
+          alert('Error: ' + err.message);
+        }
+      });
+    }
+
+    // Supabase Login Handler
+    const loginBtn = document.getElementById('btn-login');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', async () => {
+        const email = document.getElementById('acc-email').value.trim();
+        const password = document.getElementById('acc-password').value.trim();
+
+        if (!email || !password) {
+          alert('Kripya Email aur Password dono bharein!');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          alert('Login safal raha!');
+        } catch (err) {
+          console.error('Login error:', err.message);
+          alert('Error: ' + err.message);
+        }
+      });
+    }
+
+    // Supabase Gem Payment Verification Handler
     const verifyBtn = document.getElementById('btn-verify-upi');
     if (verifyBtn) {
       verifyBtn.addEventListener('click', async () => {
@@ -354,12 +419,12 @@
           const { data, error } = await supabaseClient
             .from('payments')
             .insert([
-              { upi_id: upiId, txn_id: txnId, status: 'pending_verification', created_at: new Date() }
+              { upi_id: upiId, txn_id: txnId, status: 'pending_gem_verification', created_at: new Date() }
             ]);
 
           if (error) throw error;
 
-          alert('Payment details submit ho gayi hain! Verification ke baad plan unlock ho jayega.');
+          alert('Gem payment details submit ho gayi hain! Verification ke baad account mein unlimited access mil jayega.');
           document.getElementById('upi-id-input').value = '';
           document.getElementById('txn-id-input').value = '';
         } catch (err) {
