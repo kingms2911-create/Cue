@@ -39,10 +39,10 @@ html[data-theme="dark"] .wordmark { color: var(--ink); background: linear-gradie
 
 @media (max-width: 759px) {
   .topbar-in { padding: 8px 16px; }
-  .tabs { position: fixed; left: 0; right: 0; bottom: 0; margin: 0; gap: 0; z-index: 50; justify-content: space-around; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 8px calc(14px + env(safe-area-inset-bottom, 0px)); }
-  .tab { flex: 1; padding: 10px 4px; font-size: .88rem; text-align: center; }
-  .wrap { padding: 20px 16px calc(120px + env(safe-area-inset-bottom, 0px)); }
-  html { scroll-padding-bottom: 120px; }
+  .tabs { position: fixed; left: 0; right: 0; bottom: 0; margin: 0; gap: 0; z-index: 9999; justify-content: space-around; background: var(--surface); border-top: 1px solid var(--line); padding: 10px 8px calc(18px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -4px 16px rgba(0,0,0,0.4); }
+  .tab { flex: 1; padding: 12px 4px; font-size: .9rem; text-align: center; min-height: 48px; }
+  .wrap { padding: 20px 16px calc(140px + env(safe-area-inset-bottom, 0px)); }
+  html { scroll-padding-bottom: 140px; }
 }
 
 /* ---------- type + shared ---------- */
