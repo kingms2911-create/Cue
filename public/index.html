@@ -77,22 +77,75 @@
       </div>
     </section>
 
-    <!-- Other Panels placeholder -->
+    <!-- Publish Section -->
     <section id="panel-publish" role="tabpanel" tabindex="0" hidden>
-      <h1>Publish Hub</h1>
+      <div class="page-head">
+        <h1>Publish Hub</h1>
+        <p class="lede">Apni generate ki gayi script yahan dekhein.</p>
+      </div>
+      <div class="layout" style="display: flex; flex-direction: column; gap: 20px; max-width: 700px;">
+        <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px;">
+          <h3 style="color: var(--accent); margin-bottom: 10px;">Aapki Final Script</h3>
+          <div id="publish-script-view" style="background: var(--surface2); padding: 15px; border-radius: 8px; font-family: var(--script); white-space: pre-wrap; margin-bottom: 15px; font-size: 14px;">Pehle Ideas tab se koi idea generate karke "Publish tab mein bhejo" par click karein.</div>
+          <button class="btn primary small" type="button" onclick="alert('Script copied to clipboard!')">Script Copy Karein</button>
+        </div>
+        
+        <!-- UPI Payment section hidden initially, shown only when trials are over -->
+        <div id="h-upi" style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: none;">
+          <h3 style="color: var(--ok); margin-bottom: 10px;">UPI Payment (Unlock Unlimited Access)</h3>
+          <p style="margin-bottom: 10px; color: var(--muted);">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
+          <p style="font-weight: bold; margin-bottom: 15px; font-size: 1.1rem;">UPI ID: <code style="background: var(--surface2); padding: 4px 8px; border-radius: 4px;">creatorcue@upi</code></p>
+          <button class="btn primary small" type="button" onclick="alert('Payment verification successful! Aapke trials reset kar diye gaye hain.'); localStorage.setItem('cue_free_trials', 3); location.reload();">Payment ho gaya, Verify karein</button>
+        </div>
+      </div>
     </section>
+
+    <!-- Toolkit Section -->
     <section id="panel-toolkit" role="tabpanel" tabindex="0" hidden>
-      <h1>Creator Toolkit</h1>
+      <div class="page-head">
+        <h1>Creator Toolkit</h1>
+        <p class="lede">Aapke video creation ko asaan banane ke liye useful tools.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <h3 style="color: var(--accent); margin-bottom: 10px;">Quick Hooks & CTAs</h3>
+        <p style="color: var(--muted);">Jaldi hi yahan aur bhi tools add honge jo aapke videos ko viral banane mein madad karenge.</p>
+      </div>
     </section>
+
+    <!-- VibeScript Section -->
     <section id="panel-vibe" role="tabpanel" tabindex="0" hidden>
-      <h1>VibeScript</h1>
+      <div class="page-head">
+        <h1>VibeScript</h1>
+        <p class="lede">Apne scripts ka style aur mood customize karein.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <p style="color: var(--muted);">Custom formatting options jaldi hi yahan active honge.</p>
+      </div>
     </section>
+
+    <!-- History Section -->
     <section id="panel-history" role="tabpanel" tabindex="0" hidden>
-      <h1>History</h1>
+      <div class="page-head">
+        <h1>History</h1>
+        <p class="lede">Aapke pichle generate kiye gaye ideas ki list.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <p style="color: var(--muted);">Abhi koi history saved nahi hai.</p>
+      </div>
     </section>
   </main>
 
   <script src="js/app.js"></script>
   <script src="js/ideas.js"></script>
+  <script>
+    // Show UPI payment box in Publish tab only if trials are 0
+    document.addEventListener('DOMContentLoaded', () => {
+      const trials = localStorage.getItem('cue_free_trials');
+      if (trials !== null && parseInt(trials, 10) <= 0) {
+        const upiSec = document.getElementById('h-upi');
+        if (upiSec) upiSec.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
