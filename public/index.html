@@ -27,57 +27,58 @@
 
     /* Topbar */
     .topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
-    .topbar-in { max-width: 1100px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-    .wordmark { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    .topbar-in { max-width: 1100px; margin: 0 auto; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .wordmark { font-size: 1.4rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; flex-shrink: 0; }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 6px; overflow-x: auto; }
-    .tab { background: transparent; border: none; color: var(--muted); font-family: var(--font-main); font-size: 0.95rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    /* Tabs - Fit all 5 cleanly on one screen */
+    .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { background: transparent; border: none; color: var(--muted); font-family: var(--font-main); font-size: 0.85rem; font-weight: 600; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .tab:hover { color: var(--text); background: var(--surface2); }
     .tab[aria-selected="true"] { color: var(--text); background: var(--accent); }
 
     /* Main Container */
-    .wrap { max-width: 1100px; width: 100%; margin: 0 auto; padding: 30px 20px; flex: 1; }
+    .wrap { max-width: 1100px; width: 100%; margin: 0 auto; padding: 24px 15px; flex: 1; }
     section[hidden] { display: none !important; }
 
-    .page-head { margin-bottom: 24px; }
-    .page-head h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
-    .lede { color: var(--muted); font-size: 1rem; }
+    .page-head { margin-bottom: 20px; }
+    .page-head h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
+    .lede { color: var(--muted); font-size: 0.95rem; }
 
     /* Layout & Forms */
-    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } }
 
-    .panel-form { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
-    .field { margin-bottom: 20px; }
-    .label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    .panel-form { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+    .field { margin-bottom: 16px; }
+    .label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
     
-    input[type="text"] { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-main); font-size: 0.95rem; }
+    input[type="text"] { width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-main); font-size: 0.9rem; }
     input[type="text"]:focus { outline: none; border-color: var(--accent); }
 
-    .opts { display: flex; flex-direction: column; gap: 8px; }
+    .opts { display: flex; flex-direction: column; gap: 6px; }
     .opt, .chip { display: flex; align-items: center; cursor: pointer; }
     .opt input, .chip input { display: none; }
-    .opt .box { width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; transition: all 0.2s; display: flex; flex-direction: column; }
+    .opt .box { width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; transition: all 0.2s; display: flex; flex-direction: column; }
     .opt input:checked + .box { border-color: var(--accent); background: var(--surface2); }
-    .opt b { font-size: 0.95rem; }
-    .opt small { color: var(--muted); font-size: 0.8rem; }
+    .opt b { font-size: 0.9rem; }
+    .opt small { color: var(--muted); font-size: 0.75rem; }
 
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip .box { padding: 8px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; font-size: 0.9rem; color: var(--muted); transition: all 0.2s; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip .box { padding: 6px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; font-size: 0.85rem; color: var(--muted); transition: all 0.2s; }
     .chip input:checked + .box { border-color: var(--accent); background: var(--accent); color: white; }
 
-    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-main); font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 10px; border: none; border-radius: 8px; font-family: var(--font-main); font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
     .btn.primary { background: var(--accent); color: white; }
     .btn.primary:hover { background: var(--accent-hover); }
-    .btn.small { width: auto; padding: 8px 16px; font-size: 0.9rem; }
+    .btn.small { width: auto; padding: 6px 14px; font-size: 0.85rem; }
 
     /* Results Box */
-    .results { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; min-height: 350px; display: flex; flex-direction: column; }
+    .results { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-height: 300px; display: flex; flex-direction: column; }
     .empty { margin: auto; text-align: center; color: var(--muted); }
-    .empty strong { display: block; font-size: 1.1rem; color: var(--text); margin-bottom: 4px; }
+    .empty strong { display: block; font-size: 1rem; color: var(--text); margin-bottom: 4px; }
     
-    .script-output { font-family: var(--font-script); background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--line); white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; margin-bottom: 16px; flex: 1; }
+    .script-output { font-family: var(--font-script); background: var(--bg); padding: 14px; border-radius: 8px; border: 1px solid var(--line); white-space: pre-wrap; font-size: 0.85rem; line-height: 1.4; margin-bottom: 14px; flex: 1; }
   </style>
 </head>
 <body>
@@ -108,7 +109,7 @@
           <form id="brief" novalidate>
             <fieldset class="field" style="border:none;">
               <legend class="label">Kahan post karoge?</legend>
-              <div class="opts" style="margin-top: 8px;">
+              <div class="opts" style="margin-top: 6px;">
                 <label class="opt"><input type="radio" name="fmt" value="yt" checked><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
                 <label class="opt"><input type="radio" name="fmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
                 <label class="opt"><input type="radio" name="fmt" value="reel"><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
@@ -127,7 +128,7 @@
 
             <fieldset class="field" style="border:none;">
               <legend class="label">Tone</legend>
-              <div class="chips" style="margin-top: 8px;">
+              <div class="chips" style="margin-top: 6px;">
                 <label class="chip"><input type="radio" name="tone" value="Sikhane wala" checked><span class="box">Sikhane wala</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
@@ -154,20 +155,20 @@
         <h1>Publish Hub & Auto-Publish</h1>
         <p class="lede">Apni script ko yahan dekhein aur ek click par Auto-Publish karein.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
-        <h3 style="color: var(--accent); margin-bottom: 12px;">Aapki Final Script</h3>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <h3 style="color: var(--accent); margin-bottom: 10px;">Aapki Final Script</h3>
         <div id="publish-script-view" class="script-output">Pehle Ideas tab se koi idea generate karein, woh script yahan dikh jayegi.</div>
         
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
           <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(document.getElementById('publish-script-view').innerText); alert('Script clipboard par copy ho gayi!');">Script Copy Karein</button>
           <button class="btn primary small" type="button" style="background: var(--ok);" onclick="alert('Success! Aapka video platform par successfully Auto-Publish ho gaya hai!');">🚀 Auto-Publish Now</button>
         </div>
         
         <!-- UPI Payment box (Shown only when trials = 0) -->
-        <div id="h-upi" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); display: none;">
-          <h3 style="color: var(--ok); margin-bottom: 8px;">UPI Payment (Unlock Unlimited Access)</h3>
-          <p style="margin-bottom: 10px; color: var(--muted);">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
-          <p style="font-weight: bold; margin-bottom: 15px; font-size: 1.1rem;">UPI ID: <code style="background: var(--bg); padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line);">creatorcue@upi</code></p>
+        <div id="h-upi" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); display: none;">
+          <h3 style="color: var(--ok); margin-bottom: 6px;">UPI Payment (Unlock Unlimited Access)</h3>
+          <p style="margin-bottom: 8px; color: var(--muted); font-size: 0.9rem;">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
+          <p style="font-weight: bold; margin-bottom: 12px; font-size: 1rem;">UPI ID: <code style="background: var(--bg); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line);">creatorcue@upi</code></p>
           <button class="btn primary small" type="button" onclick="localStorage.setItem('cue_trials', 3); alert('Payment verify ho gaya! Aapke 3 naye trials mil gaye hain.'); location.reload();">Payment ho gaya, Verify karein</button>
         </div>
       </div>
@@ -179,9 +180,9 @@
         <h1>Creator Toolkit</h1>
         <p class="lede">Aapke video creation ko asaan banane ke liye useful tools.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
-        <h3 style="color: var(--accent); margin-bottom: 10px;">Quick Hooks & CTAs</h3>
-        <p style="color: var(--muted);">Yahan par jaldi hi viral hooks aur call-to-action templates milenge.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <h3 style="color: var(--accent); margin-bottom: 8px;">Quick Hooks & CTAs</h3>
+        <p style="color: var(--muted); font-size: 0.9rem;">Yahan par jaldi hi viral hooks aur call-to-action templates milenge.</p>
       </div>
     </section>
 
@@ -191,8 +192,8 @@
         <h1>VibeScript</h1>
         <p class="lede">Apne scripts ka style aur mood customize karein.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
-        <p style="color: var(--muted);">Custom formatting aur tone options yahan jald active honge.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+        <p style="color: var(--muted); font-size: 0.9rem;">Custom formatting aur tone options yahan jald active honge.</p>
       </div>
     </section>
 
@@ -202,8 +203,8 @@
         <h1>History</h1>
         <p class="lede">Aapke pichle generate kiye gaye ideas ki list.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;" id="history-box">
-        <p style="color: var(--muted);">Abhi tak koi history saved nahi hai.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;" id="history-box">
+        <p style="color: var(--muted); font-size: 0.9rem;">Abhi tak koi history saved nahi hai.</p>
       </div>
     </section>
   </main>
@@ -244,7 +245,6 @@
     const trialCounter = document.getElementById('trial-counter');
     trialCounter.innerText = `Muft trials bache hain: ${trials}/3`;
 
-    // Check payment section visibility on load
     if (trials <= 0) {
       document.getElementById('h-upi').style.display = 'block';
     }
@@ -275,22 +275,20 @@
         document.getElementById('h-upi').style.display = 'block';
       }
 
-      // Generate sample tailored script
       const generatedScript = `TITLE: ${niche} par Dhamakedaar Video!\nFORMAT: ${format.toUpperCase()} | TONE: ${tone}\n\n[00:00 - Hook]: "Kya aap bhi ${niche} se pareshan ho? Rukiye, aaj aapko sachai pata chalegi!"\n\n[00:15 - Body]: Point 1: Sabse badi galti jo log karte hain.\nPoint 2: Asaan tareeqa jisse yeh pal bhar mein ho jaye.\n\n[00:45 - Outro]: "Agar video pasand aayi ho toh channel ko subscribe karein aur niche comment karke batayein!"`;
 
       document.getElementById('results').innerHTML = `
         <h3 style="color: var(--accent); margin-bottom: 10px;">Aapka Video Idea & Script</h3>
         <div class="script-output">${generatedScript}</div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(\`${generatedScript}\`); alert('Script copy ho gayi!');">Copy Script</button>
           <button class="btn small" type="button" style="background: var(--surface2); color: var(--text);" onclick="document.getElementById('publish-script-view').innerText = \`${generatedScript}\`; document.getElementById('panel-publish-tab').click();">Publish Tab Mein Bhejo</button>
         </div>
       `;
 
-      // Save to History
       const histBox = document.getElementById('history-box');
       if(histBox.innerHTML.includes('Abhi tak')) histBox.innerHTML = '';
-      histBox.innerHTML += `<div style="background: var(--bg); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--line);"><b>Niche:</b> ${niche} (${format})</div>`;
+      histBox.innerHTML += `<div style="background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--line); font-size: 0.9rem;"><b>Niche:</b> ${niche} (${format})</div>`;
     });
   </script>
 </body>
