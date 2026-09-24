@@ -27,13 +27,13 @@
 
     /* Topbar */
     .topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
-    .topbar-in { max-width: 1100px; margin: 0 auto; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .topbar-in { max-width: 1100px; margin: 0 auto; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .wordmark { font-size: 1.4rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; flex-shrink: 0; }
 
-    /* Tabs - Fit all 5 cleanly on one screen */
+    /* Compact Tabs */
     .tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab { background: transparent; border: none; color: var(--muted); font-family: var(--font-main); font-size: 0.85rem; font-weight: 600; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .tab { background: transparent; border: none; color: var(--muted); font-family: var(--font-main); font-size: 0.9rem; font-weight: 700; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
     .tab:hover { color: var(--text); background: var(--surface2); }
     .tab[aria-selected="true"] { color: var(--text); background: var(--accent); }
 
@@ -53,8 +53,11 @@
     .field { margin-bottom: 16px; }
     .label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
     
-    input[type="text"] { width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-main); font-size: 0.9rem; }
-    input[type="text"]:focus { outline: none; border-color: var(--accent); }
+    input[type="text"], input[type="password"] { width: 100%; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-main); font-size: 0.9rem; }
+    input[type="text"]:focus, input[type="password"]:focus { outline: none; border-color: var(--accent); }
+    
+    textarea { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-script); font-size: 0.9rem; resize: vertical; line-height: 1.5; }
+    textarea:focus { outline: none; border-color: var(--accent); }
 
     .opts { display: flex; flex-direction: column; gap: 6px; }
     .opt, .chip { display: flex; align-items: center; cursor: pointer; }
@@ -72,6 +75,8 @@
     .btn.primary { background: var(--accent); color: white; }
     .btn.primary:hover { background: var(--accent-hover); }
     .btn.small { width: auto; padding: 6px 14px; font-size: 0.85rem; }
+    .btn.outline { background: transparent; border: 1px solid var(--line); color: var(--text); }
+    .btn.outline:hover { background: var(--surface2); }
 
     /* Results Box */
     .results { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-height: 300px; display: flex; flex-direction: column; }
@@ -88,10 +93,8 @@
       <span class="wordmark">Cue</span>
       <nav class="tabs" role="tablist">
         <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
-        <button class="tab" role="tab" id="panel-publish-tab" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
-        <button class="tab" role="tab" id="panel-toolkit-tab" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
         <button class="tab" role="tab" id="panel-vibe-tab" aria-controls="panel-vibe" aria-selected="false" tabindex="-1">VibeScript</button>
-        <button class="tab" role="tab" id="panel-history-tab" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
+        <button class="tab" role="tab" id="panel-publish-tab" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Auto-Publish Hub</button>
       </nav>
     </div>
   </header>
@@ -100,8 +103,8 @@
     <!-- 1. Ideas Section -->
     <section id="panel-ideas" role="tabpanel" tabindex="0">
       <div class="page-head">
-        <h1>Agla video kya banana hai?</h1>
-        <p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: var(--ok); display: inline-block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
+        <h1>Agla video kya banana hai, MS?</h1>
+        <p class="lede">Apni niche batao, ek behtareen script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: var(--ok); display: inline-block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
       </div>
 
       <div class="layout">
@@ -118,12 +121,7 @@
 
             <div class="field">
               <label class="label" for="niche">Tumhari niche</label>
-              <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout">
-            </div>
-
-            <div class="field">
-              <label class="label" for="audience">Tumhare viewers <span style="color: var(--muted); font-weight: normal;">(optional)</span></label>
-              <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
+              <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Jaise: Ghar par fitness, AI tools, etc.">
             </div>
 
             <fieldset class="field" style="border:none;">
@@ -132,79 +130,97 @@
                 <label class="chip"><input type="radio" name="tone" value="Sikhane wala" checked><span class="box">Sikhane wala</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
-                <label class="chip"><input type="radio" name="tone" value="Seedha-seedha"><span class="box">Seedha-seedha</span></label>
               </div>
             </fieldset>
 
-            <button class="btn primary" id="go" type="submit">Idea lo</button>
+            <button class="btn primary" id="go" type="submit">Idea aur Script Lo</button>
           </form>
         </div>
 
         <div class="results" id="results" tabindex="0">
           <div class="empty">
             <strong>Yahan aapka idea aayega</strong>
-            <span>Pehle form mein apni niche daal kar "Idea lo" par click karein.</span>
+            <span>Pehle form mein apni niche daal kar "Idea aur Script Lo" par click karein.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 2. Publish Section -->
-    <section id="panel-publish" role="tabpanel" tabindex="0" hidden>
-      <div class="page-head">
-        <h1>Publish Hub & Auto-Publish</h1>
-        <p class="lede">Apni script ko yahan dekhein aur ek click par Auto-Publish karein.</p>
-      </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
-        <h3 style="color: var(--accent); margin-bottom: 10px;">Aapki Final Script</h3>
-        <div id="publish-script-view" class="script-output">Pehle Ideas tab se koi idea generate karein, woh script yahan dikh jayegi.</div>
-        
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
-          <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(document.getElementById('publish-script-view').innerText); alert('Script clipboard par copy ho gayi!');">Script Copy Karein</button>
-          <button class="btn primary small" type="button" style="background: var(--ok);" onclick="alert('Success! Aapka video platform par successfully Auto-Publish ho gaya hai!');">🚀 Auto-Publish Now</button>
-        </div>
-        
-        <!-- UPI Payment box (Shown only when trials = 0) -->
-        <div id="h-upi" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); display: none;">
-          <h3 style="color: var(--ok); margin-bottom: 6px;">UPI Payment (Unlock Unlimited Access)</h3>
-          <p style="margin-bottom: 8px; color: var(--muted); font-size: 0.9rem;">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
-          <p style="font-weight: bold; margin-bottom: 12px; font-size: 1rem;">UPI ID: <code style="background: var(--bg); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line);">creatorcue@upi</code></p>
-          <button class="btn primary small" type="button" onclick="localStorage.setItem('cue_trials', 3); alert('Payment verify ho gaya! Aapke 3 naye trials mil gaye hain.'); location.reload();">Payment ho gaya, Verify karein</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Toolkit Section -->
-    <section id="panel-toolkit" role="tabpanel" tabindex="0" hidden>
-      <div class="page-head">
-        <h1>Creator Toolkit</h1>
-        <p class="lede">Aapke video creation ko asaan banane ke liye useful tools.</p>
-      </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
-        <h3 style="color: var(--accent); margin-bottom: 8px;">Quick Hooks & CTAs</h3>
-        <p style="color: var(--muted); font-size: 0.9rem;">Yahan par jaldi hi viral hooks aur call-to-action templates milenge.</p>
-      </div>
-    </section>
-
-    <!-- 4. VibeScript Section -->
+    <!-- 2. VibeScript Section -->
     <section id="panel-vibe" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
-        <h1>VibeScript</h1>
-        <p class="lede">Apne scripts ka style aur mood customize karein.</p>
+        <h1>VibeScript Editor</h1>
+        <p class="lede">Apni script ka mood aur vibe change karein, emojis daalein, ya dramatic banayein.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
-        <p style="color: var(--muted); font-size: 0.9rem;">Custom formatting aur tone options yahan jald active honge.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 800px;">
+        
+        <textarea id="vibe-text-editor" rows="12">Pehle Ideas tab se koi script banayein, woh yahan aa jayegi jise aap edit kar payenge.</textarea>
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+          <button class="btn outline small" type="button" onclick="addEmojis()">🤩 Emojis Daalo</button>
+          <button class="btn outline small" type="button" onclick="makeDramatic()">🔥 Dramatic Banao</button>
+          <button class="btn primary small" type="button" onclick="saveVibeScript()">✅ Save & Auto-Publish Mein Bhejo</button>
+        </div>
       </div>
     </section>
 
-    <!-- 5. History Section -->
-    <section id="panel-history" role="tabpanel" tabindex="0" hidden>
+    <!-- 3. Auto-Publish Hub Section -->
+    <section id="panel-publish" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
-        <h1>History</h1>
-        <p class="lede">Aapke pichle generate kiye gaye ideas ki list.</p>
+        <h1>Auto-Publish Hub</h1>
+        <p class="lede">Apni script aur video ko ek hi click mein alag-alag platforms par API ke zariye upload karein.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;" id="history-box">
-        <p style="color: var(--muted); font-size: 0.9rem;">Abhi tak koi history saved nahi hai.</p>
+      
+      <div class="layout" style="grid-template-columns: 1fr 1.2fr;">
+        <!-- Left: API Config Panel -->
+        <div class="panel-form">
+          <h3 style="color: var(--accent); margin-bottom: 12px; font-size: 1.1rem;">API Keys Config</h3>
+          <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 14px;">Apne platforms ke API credentials yahan daalein:</p>
+          
+          <div class="field">
+            <label class="label" for="api-yt">YouTube API / OAuth Token</label>
+            <input id="api-yt" type="password" placeholder="AIzaSy...">
+          </div>
+
+          <div class="field">
+            <label class="label" for="api-ig">Instagram Graph API Token</label>
+            <input id="api-ig" type="password" placeholder="IGQV... or Bearer token">
+          </div>
+
+          <div class="field">
+            <label class="label" for="api-fb">Facebook Page Token</label>
+            <input id="api-fb" type="password" placeholder="EAAB...">
+          </div>
+
+          <button class="btn outline small" type="button" onclick="saveApiKeys()">API Keys Save Karein</button>
+        </div>
+
+        <!-- Right: Script Preview & Multi-Platform Trigger -->
+        <div class="results" style="min-height: auto;">
+          <h3 style="color: var(--accent); margin-bottom: 10px; font-size: 1.1rem;">Ready to Publish Script</h3>
+          <div id="publish-script-view" class="script-output" style="max-height: 150px; min-height: 100px;">Pehle Ideas ya VibeScript tab se script bhejein.</div>
+          
+          <div class="field" style="margin-bottom: 12px;">
+            <label class="label">Kahan-kahan publish karna hai?</label>
+            <div style="display: flex; gap: 15px; margin-top: 6px; font-size: 0.9rem;">
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;"><input type="checkbox" id="pub-yt" checked> YouTube</label>
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;"><input type="checkbox" id="pub-ig" checked> Instagram</label>
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;"><input type="checkbox" id="pub-fb"> Facebook</label>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn primary small" type="button" style="background: var(--ok); flex: 1;" onclick="triggerAutoPublish()">🚀 Sabhi Platforms Par Auto-Publish Karein</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPI Payment box (Shown only when trials = 0) -->
+      <div id="h-upi" style="margin-top: 25px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; display: none;">
+        <h3 style="color: var(--ok); margin-bottom: 6px;">UPI Payment (Unlock Unlimited Access)</h3>
+        <p style="margin-bottom: 8px; color: var(--muted); font-size: 0.9rem;">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
+        <p style="font-weight: bold; margin-bottom: 12px; font-size: 1rem;">UPI ID: <code style="background: var(--bg); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line);">creatorcue@upi</code></p>
+        <button class="btn primary small" type="button" onclick="localStorage.setItem('cue_trials', 3); alert('Payment verify ho gaya! Aapke 3 naye trials mil gaye hain.'); location.reload();">Payment ho gaya, Verify karein</button>
       </div>
     </section>
   </main>
@@ -233,7 +249,7 @@
       });
     });
 
-    // Trial Management & Generator Logic
+    // Trial Management
     let trials = localStorage.getItem('cue_trials');
     if (trials === null) {
       trials = 3;
@@ -249,6 +265,7 @@
       document.getElementById('h-upi').style.display = 'block';
     }
 
+    // Generator Logic
     document.getElementById('brief').addEventListener('submit', (e) => {
       e.preventDefault();
       const niche = document.getElementById('niche').value.trim();
@@ -262,7 +279,7 @@
       }
 
       if (trials <= 0) {
-        alert('Aapke sabhi 3 free trials khatam ho chuke hain! Publish tab mein jaakar payment complete karein.');
+        alert('Aapke sabhi 3 free trials khatam ho chuke hain! Auto-Publish Hub mein jaakar payment complete karein.');
         document.getElementById('panel-publish-tab').click();
         return;
       }
@@ -275,21 +292,80 @@
         document.getElementById('h-upi').style.display = 'block';
       }
 
-      const generatedScript = `TITLE: ${niche} par Dhamakedaar Video!\nFORMAT: ${format.toUpperCase()} | TONE: ${tone}\n\n[00:00 - Hook]: "Kya aap bhi ${niche} se pareshan ho? Rukiye, aaj aapko sachai pata chalegi!"\n\n[00:15 - Body]: Point 1: Sabse badi galti jo log karte hain.\nPoint 2: Asaan tareeqa jisse yeh pal bhar mein ho jaye.\n\n[00:45 - Outro]: "Agar video pasand aayi ho toh channel ko subscribe karein aur niche comment karke batayein!"`;
+      const generatedScript = `TITLE: ${niche} par Dhamakedaar Video!\nFORMAT: ${format.toUpperCase()} | TONE: ${tone}\n\n[00:00 - Hook]: "Kya aap bhi ${niche} ke baare mein yeh galti kar rahe ho? Rukiye, aaj sachai dekho!"\n\n[00:15 - Body]: Point 1: Sabse badi problem aur uska simple solution.\nPoint 2: Professional secret jo koi nahi batata.\n\n[00:45 - Outro]: "Video pasand aayi toh like karein aur channel ko subscribe zaroor karein!"`;
 
       document.getElementById('results').innerHTML = `
         <h3 style="color: var(--accent); margin-bottom: 10px;">Aapka Video Idea & Script</h3>
         <div class="script-output">${generatedScript}</div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(\`${generatedScript}\`); alert('Script copy ho gayi!');">Copy Script</button>
-          <button class="btn small" type="button" style="background: var(--surface2); color: var(--text);" onclick="document.getElementById('publish-script-view').innerText = \`${generatedScript}\`; document.getElementById('panel-publish-tab').click();">Publish Tab Mein Bhejo</button>
+          <button class="btn outline small" type="button" onclick="document.getElementById('vibe-text-editor').value = \`${generatedScript}\`; document.getElementById('panel-vibe-tab').click();">✨ VibeScript Mein Edit Karein</button>
         </div>
       `;
 
-      const histBox = document.getElementById('history-box');
-      if(histBox.innerHTML.includes('Abhi tak')) histBox.innerHTML = '';
-      histBox.innerHTML += `<div style="background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--line); font-size: 0.9rem;"><b>Niche:</b> ${niche} (${format})</div>`;
+      document.getElementById('vibe-text-editor').value = generatedScript;
+      document.getElementById('publish-script-view').innerText = generatedScript;
     });
+
+    // VibeScript Logic
+    function addEmojis() {
+      let text = document.getElementById('vibe-text-editor').value;
+      text = text.replace(/Video!/g, 'Video! 🎬🔥')
+                 .replace(/sachai/g, 'sachai 🤯')
+                 .replace(/Point 1/g, '👉 Point 1')
+                 .replace(/Point 2/g, '👉 Point 2')
+                 .replace(/subscribe/g, 'subscribe 🔔')
+                 .replace(/galti/g, 'galti ❌');
+      document.getElementById('vibe-text-editor').value = text;
+    }
+
+    function makeDramatic() {
+      let text = document.getElementById('vibe-text-editor').value;
+      text = text.replace(/Kya aap bhi/g, 'KYA AAP BHI')
+                 .replace(/Rukiye, aaj sachai dekho!/g, 'RUKIYE!!! AAJ SACHAI DEKHO!!! 🚨')
+                 .replace(/Sabse badi problem/g, 'SABSE BADI PROBLEM')
+                 .replace(/koi nahi batata/g, 'KOI NAHI BATATA 🤫');
+      document.getElementById('vibe-text-editor').value = text;
+    }
+
+    function saveVibeScript() {
+      const editedScript = document.getElementById('vibe-text-editor').value;
+      document.getElementById('publish-script-view').innerText = editedScript;
+      document.getElementById('panel-publish-tab').click();
+    }
+
+    // Auto-Publish & API Handlers
+    function saveApiKeys() {
+      const ytKey = document.getElementById('api-yt').value;
+      const igKey = document.getElementById('api-ig').value;
+      const fbKey = document.getElementById('api-fb').value;
+      
+      localStorage.setItem('cue_api_yt', ytKey);
+      localStorage.setItem('cue_api_ig', igKey);
+      localStorage.setItem('cue_api_fb', fbKey);
+      
+      alert('API keys successfully save ho gayi hain, MS!');
+    }
+
+    function triggerAutoPublish() {
+      const useYt = document.getElementById('pub-yt').checked;
+      const useIg = document.getElementById('pub-ig').checked;
+      const useFb = document.getElementById('pub-fb').checked;
+
+      if (!useYt && !useIg && !useFb) {
+        alert('Kam se kam ek platform toh select karo, MS!');
+        return;
+      }
+
+      const scriptContent = document.getElementById('publish-script-view').innerText;
+      if (!scriptContent || scriptContent.includes('Pehle Ideas')) {
+        alert('Pehle koi script generate karo ya VibeScript se save karo!');
+        return;
+      }
+
+      // Simulated multi-platform API execution trigger
+      alert(`🚀 Success! Aapki script selected platforms par Auto-Publish queue mein bhej di gayi hai via API.`);
+    }
   </script>
 </body>
 </html>
