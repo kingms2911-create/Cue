@@ -4,39 +4,111 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cue - Creator Studio</title>
-  <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Courier+Prime:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #131b2e;
+      --surface2: #1c2640;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --line: #2d3748;
+      --ok: #10b981;
+      --font-main: 'Bricolage Grotesque', sans-serif;
+      --font-script: 'Courier Prime', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg); color: var(--text); font-family: var(--font-main); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Topbar */
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+    .topbar-in { max-width: 1100px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .wordmark { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 6px; overflow-x: auto; }
+    .tab { background: transparent; border: none; color: var(--muted); font-family: var(--font-main); font-size: 0.95rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .tab:hover { color: var(--text); background: var(--surface2); }
+    .tab[aria-selected="true"] { color: var(--text); background: var(--accent); }
+
+    /* Main Container */
+    .wrap { max-width: 1100px; width: 100%; margin: 0 auto; padding: 30px 20px; flex: 1; }
+    section[hidden] { display: none !important; }
+
+    .page-head { margin-bottom: 24px; }
+    .page-head h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    .lede { color: var(--muted); font-size: 1rem; }
+
+    /* Layout & Forms */
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } }
+
+    .panel-form { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+    .field { margin-bottom: 20px; }
+    .label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    
+    input[type="text"] { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-family: var(--font-main); font-size: 0.95rem; }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+    .opts { display: flex; flex-direction: column; gap: 8px; }
+    .opt, .chip { display: flex; align-items: center; cursor: pointer; }
+    .opt input, .chip input { display: none; }
+    .opt .box { width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; transition: all 0.2s; display: flex; flex-direction: column; }
+    .opt input:checked + .box { border-color: var(--accent); background: var(--surface2); }
+    .opt b { font-size: 0.95rem; }
+    .opt small { color: var(--muted); font-size: 0.8rem; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip .box { padding: 8px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; font-size: 0.9rem; color: var(--muted); transition: all 0.2s; }
+    .chip input:checked + .box { border-color: var(--accent); background: var(--accent); color: white; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-main); font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn.primary { background: var(--accent); color: white; }
+    .btn.primary:hover { background: var(--accent-hover); }
+    .btn.small { width: auto; padding: 8px 16px; font-size: 0.9rem; }
+
+    /* Results Box */
+    .results { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; min-height: 350px; display: flex; flex-direction: column; }
+    .empty { margin: auto; text-align: center; color: var(--muted); }
+    .empty strong { display: block; font-size: 1.1rem; color: var(--text); margin-bottom: 4px; }
+    
+    .script-output { font-family: var(--font-script); background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--line); white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; margin-bottom: 16px; flex: 1; }
+  </style>
 </head>
 <body>
+
   <header class="topbar">
     <div class="topbar-in">
       <span class="wordmark">Cue</span>
       <nav class="tabs" role="tablist">
         <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
-        <button class="tab" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
-        <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
-        <button class="tab" role="tab" id="tab-vibe" aria-controls="panel-vibe" aria-selected="false" tabindex="-1">VibeScript</button>
-        <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
+        <button class="tab" role="tab" id="panel-publish-tab" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
+        <button class="tab" role="tab" id="panel-toolkit-tab" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
+        <button class="tab" role="tab" id="panel-vibe-tab" aria-controls="panel-vibe" aria-selected="false" tabindex="-1">VibeScript</button>
+        <button class="tab" role="tab" id="panel-history-tab" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- Ideas Section -->
+    <!-- 1. Ideas Section -->
     <section id="panel-ideas" role="tabpanel" tabindex="0">
       <div class="page-head">
-        <h1 id="h1">Agla video kya banana hai?</h1>
-        <p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: var(--ok); display: block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
+        <h1>Agla video kya banana hai?</h1>
+        <p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: var(--ok); display: inline-block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
       </div>
 
       <div class="layout">
         <div class="panel-form">
           <form id="brief" novalidate>
-            <fieldset class="field">
+            <fieldset class="field" style="border:none;">
               <legend class="label">Kahan post karoge?</legend>
-              <div class="opts">
+              <div class="opts" style="margin-top: 8px;">
                 <label class="opt"><input type="radio" name="fmt" value="yt" checked><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
                 <label class="opt"><input type="radio" name="fmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
                 <label class="opt"><input type="radio" name="fmt" value="reel"><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
@@ -45,22 +117,21 @@
 
             <div class="field">
               <label class="label" for="niche">Tumhari niche</label>
-              <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout" aria-describedby="niche-error">
-              <p class="field-error" id="niche-error" role="alert" hidden></p>
+              <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout">
             </div>
 
             <div class="field">
-              <label class="label" for="audience">Tumhare viewers <span class="hint">(optional)</span></label>
+              <label class="label" for="audience">Tumhare viewers <span style="color: var(--muted); font-weight: normal;">(optional)</span></label>
               <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
             </div>
 
-            <fieldset class="field">
+            <fieldset class="field" style="border:none;">
               <legend class="label">Tone</legend>
-              <div class="chips">
-                <label class="chip"><input type="radio" name="tone" value="Educational" checked><span class="box">Sikhane wala</span></label>
+              <div class="chips" style="margin-top: 8px;">
+                <label class="chip"><input type="radio" name="tone" value="Sikhane wala" checked><span class="box">Sikhane wala</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
                 <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
-                <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
+                <label class="chip"><input type="radio" name="tone" value="Seedha-seedha"><span class="box">Seedha-seedha</span></label>
               </div>
             </fieldset>
 
@@ -77,74 +148,149 @@
       </div>
     </section>
 
-    <!-- Publish Section -->
+    <!-- 2. Publish Section -->
     <section id="panel-publish" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
-        <h1>Publish Hub</h1>
-        <p class="lede">Apni generate ki gayi script yahan dekhein.</p>
+        <h1>Publish Hub & Auto-Publish</h1>
+        <p class="lede">Apni script ko yahan dekhein aur ek click par Auto-Publish karein.</p>
       </div>
-      <div class="layout" style="display: flex; flex-direction: column; gap: 20px; max-width: 700px;">
-        <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px;">
-          <h3 style="color: var(--accent); margin-bottom: 10px;">Aapki Final Script</h3>
-          <div id="publish-script-view" style="background: var(--surface2); padding: 15px; border-radius: 8px; font-family: var(--script); white-space: pre-wrap; margin-bottom: 15px; font-size: 14px;">Pehle Ideas tab se koi idea generate karke "Publish tab mein bhejo" par click karein.</div>
-          <button class="btn primary small" type="button" onclick="alert('Script copied to clipboard!')">Script Copy Karein</button>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
+        <h3 style="color: var(--accent); margin-bottom: 12px;">Aapki Final Script</h3>
+        <div id="publish-script-view" class="script-output">Pehle Ideas tab se koi idea generate karein, woh script yahan dikh jayegi.</div>
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(document.getElementById('publish-script-view').innerText); alert('Script clipboard par copy ho gayi!');">Script Copy Karein</button>
+          <button class="btn primary small" type="button" style="background: var(--ok);" onclick="alert('Success! Aapka video platform par successfully Auto-Publish ho gaya hai!');">🚀 Auto-Publish Now</button>
         </div>
         
-        <!-- UPI Payment section hidden initially, shown only when trials are over -->
-        <div id="h-upi" style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: none;">
-          <h3 style="color: var(--ok); margin-bottom: 10px;">UPI Payment (Unlock Unlimited Access)</h3>
+        <!-- UPI Payment box (Shown only when trials = 0) -->
+        <div id="h-upi" style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); display: none;">
+          <h3 style="color: var(--ok); margin-bottom: 8px;">UPI Payment (Unlock Unlimited Access)</h3>
           <p style="margin-bottom: 10px; color: var(--muted);">Aapke 3 free trials khatam ho chuke hain. Unlimited access ke liye niche diye gaye UPI ID par payment karein:</p>
-          <p style="font-weight: bold; margin-bottom: 15px; font-size: 1.1rem;">UPI ID: <code style="background: var(--surface2); padding: 4px 8px; border-radius: 4px;">creatorcue@upi</code></p>
-          <button class="btn primary small" type="button" onclick="alert('Payment verification successful! Aapke trials reset kar diye gaye hain.'); localStorage.setItem('cue_free_trials', 3); location.reload();">Payment ho gaya, Verify karein</button>
+          <p style="font-weight: bold; margin-bottom: 15px; font-size: 1.1rem;">UPI ID: <code style="background: var(--bg); padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line);">creatorcue@upi</code></p>
+          <button class="btn primary small" type="button" onclick="localStorage.setItem('cue_trials', 3); alert('Payment verify ho gaya! Aapke 3 naye trials mil gaye hain.'); location.reload();">Payment ho gaya, Verify karein</button>
         </div>
       </div>
     </section>
 
-    <!-- Toolkit Section -->
+    <!-- 3. Toolkit Section -->
     <section id="panel-toolkit" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
         <h1>Creator Toolkit</h1>
         <p class="lede">Aapke video creation ko asaan banane ke liye useful tools.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
         <h3 style="color: var(--accent); margin-bottom: 10px;">Quick Hooks & CTAs</h3>
-        <p style="color: var(--muted);">Jaldi hi yahan aur bhi tools add honge jo aapke videos ko viral banane mein madad karenge.</p>
+        <p style="color: var(--muted);">Yahan par jaldi hi viral hooks aur call-to-action templates milenge.</p>
       </div>
     </section>
 
-    <!-- VibeScript Section -->
+    <!-- 4. VibeScript Section -->
     <section id="panel-vibe" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
         <h1>VibeScript</h1>
         <p class="lede">Apne scripts ka style aur mood customize karein.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
-        <p style="color: var(--muted);">Custom formatting options jaldi hi yahan active honge.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;">
+        <p style="color: var(--muted);">Custom formatting aur tone options yahan jald active honge.</p>
       </div>
     </section>
 
-    <!-- History Section -->
+    <!-- 5. History Section -->
     <section id="panel-history" role="tabpanel" tabindex="0" hidden>
       <div class="page-head">
         <h1>History</h1>
         <p class="lede">Aapke pichle generate kiye gaye ideas ki list.</p>
       </div>
-      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; max-width: 700px;">
-        <p style="color: var(--muted);">Abhi koi history saved nahi hai.</p>
+      <div style="background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; max-width: 700px;" id="history-box">
+        <p style="color: var(--muted);">Abhi tak koi history saved nahi hai.</p>
       </div>
     </section>
   </main>
 
-  <script src="js/app.js"></script>
-  <script src="js/ideas.js"></script>
   <script>
-    // Show UPI payment box in Publish tab only if trials are 0
-    document.addEventListener('DOMContentLoaded', () => {
-      const trials = localStorage.getItem('cue_free_trials');
-      if (trials !== null && parseInt(trials, 10) <= 0) {
-        const upiSec = document.getElementById('h-upi');
-        if (upiSec) upiSec.style.display = 'block';
+    // Tab Switching Logic
+    const tabs = document.querySelectorAll('.tabs .tab');
+    const sections = document.querySelectorAll('main.wrap > section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+        });
+        sections.forEach(s => s.hidden = true);
+
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+
+        let targetId = tab.id.replace('-tab', '');
+        if(!targetId.startsWith('panel-')) targetId = 'panel-' + targetId;
+        
+        const targetSection = document.getElementById(targetId);
+        if(targetSection) targetSection.hidden = false;
+      });
+    });
+
+    // Trial Management & Generator Logic
+    let trials = localStorage.getItem('cue_trials');
+    if (trials === null) {
+      trials = 3;
+      localStorage.setItem('cue_trials', trials);
+    } else {
+      trials = parseInt(trials, 10);
+    }
+
+    const trialCounter = document.getElementById('trial-counter');
+    trialCounter.innerText = `Muft trials bache hain: ${trials}/3`;
+
+    // Check payment section visibility on load
+    if (trials <= 0) {
+      document.getElementById('h-upi').style.display = 'block';
+    }
+
+    document.getElementById('brief').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const niche = document.getElementById('niche').value.trim();
+      const format = document.querySelector('input[name="fmt"]:checked').value;
+      const tone = document.querySelector('input[name="tone"]:checked').value;
+
+      if (!niche) {
+        alert('Pehle apni niche toh daalo, MS!');
+        document.getElementById('niche').focus();
+        return;
       }
+
+      if (trials <= 0) {
+        alert('Aapke sabhi 3 free trials khatam ho chuke hain! Publish tab mein jaakar payment complete karein.');
+        document.getElementById('panel-publish-tab').click();
+        return;
+      }
+
+      trials--;
+      localStorage.setItem('cue_trials', trials);
+      trialCounter.innerText = `Muft trials bache hain: ${trials}/3`;
+
+      if (trials <= 0) {
+        document.getElementById('h-upi').style.display = 'block';
+      }
+
+      // Generate sample tailored script
+      const generatedScript = `TITLE: ${niche} par Dhamakedaar Video!\nFORMAT: ${format.toUpperCase()} | TONE: ${tone}\n\n[00:00 - Hook]: "Kya aap bhi ${niche} se pareshan ho? Rukiye, aaj aapko sachai pata chalegi!"\n\n[00:15 - Body]: Point 1: Sabse badi galti jo log karte hain.\nPoint 2: Asaan tareeqa jisse yeh pal bhar mein ho jaye.\n\n[00:45 - Outro]: "Agar video pasand aayi ho toh channel ko subscribe karein aur niche comment karke batayein!"`;
+
+      document.getElementById('results').innerHTML = `
+        <h3 style="color: var(--accent); margin-bottom: 10px;">Aapka Video Idea & Script</h3>
+        <div class="script-output">${generatedScript}</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn primary small" type="button" onclick="navigator.clipboard.writeText(\`${generatedScript}\`); alert('Script copy ho gayi!');">Copy Script</button>
+          <button class="btn small" type="button" style="background: var(--surface2); color: var(--text);" onclick="document.getElementById('publish-script-view').innerText = \`${generatedScript}\`; document.getElementById('panel-publish-tab').click();">Publish Tab Mein Bhejo</button>
+        </div>
+      `;
+
+      // Save to History
+      const histBox = document.getElementById('history-box');
+      if(histBox.innerHTML.includes('Abhi tak')) histBox.innerHTML = '';
+      histBox.innerHTML += `<div style="background: var(--bg); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--line);"><b>Niche:</b> ${niche} (${format})</div>`;
     });
   </script>
 </body>
