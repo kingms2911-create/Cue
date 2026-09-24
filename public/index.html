@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<!-- Supabase SDK CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -20,6 +19,7 @@
       <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
       <button class="tab" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
       <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
+      <button class="tab" role="tab" id="tab-vibescript" aria-controls="panel-vibescript" aria-selected="false" tabindex="-1">VibeScript</button>
       <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
     </nav>
     <div class="tools">
@@ -35,7 +35,7 @@
     <div class="layout">
       <section class="panel-form" aria-labelledby="h1">
         <h1 id="h1">Agla video kya banana hai?</h1>
-        <p class="lede">Apni niche batao. Vibe chuno, aur ek behtareen script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: #4ade80; display: block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
+        <p class="lede">Apni niche batao. 10 video ideas lo, phir ek script jo aaj hi record kar sako. <span id="trial-counter" style="color: #4ade80; display: block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
         <form id="brief" novalidate>
           <fieldset class="field">
             <legend class="label">Kahan post karoge?</legend>
@@ -55,7 +55,7 @@
             <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
           </div>
           <fieldset class="field">
-            <legend class="label">Vibe / Tone</legend>
+            <legend class="label">Tone</legend>
             <div class="chips">
               <label class="chip"><input type="radio" name="tone" value="Educational" checked><span class="box">Sikhane wala</span></label>
               <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
@@ -63,43 +63,42 @@
               <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
             </div>
           </fieldset>
-          <button class="btn primary" id="go" type="submit">Vibe Script Lo</button>
+          <button class="btn primary" id="go" type="submit">10 ideas lo</button>
         </form>
       </section>
       <section class="results" id="results" tabindex="-1" aria-label="Ideas aur script"></section>
     </div>
+    <div class="ad-slot" data-ad-slot="ideas" aria-hidden="true"></div>
   </section>
 
   <!-- ============ PUBLISH & UPI PAYMENT ============ -->
   <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
     <div class="page-head">
       <h1>Publish video & UPI Payment</h1>
-      <p class="lede">Video publish karo ya phir Gems / Unlimited Access ke liye UPI payment karo[cite: 2].</p>
+      <p class="lede">Video publish karo ya Pro access ke liye UPI payment karo.</p>
     </div>
 
-    <!-- Step 1: Payment First Section -->
+    <!-- Step-by-Step UPI Payment Section -->
     <div id="h-upi" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1);">
       <h3 style="margin-bottom: 8px;">Step 1: UPI Payment (₹49)</h3>
       <p style="font-size: 14px; opacity: 0.8; margin-bottom: 12px;">Pehle niche diye gaye UPI ID par ₹49 pay karein:</p>
       <div style="background: #111; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
         <div>
           <span style="font-size: 12px; opacity: 0.7; display: block;">Merchant UPI ID:</span>
-          <code style="font-size: 16px; color: #4ade80; font-weight: bold;">merchant@upi</code>[cite: 2]
+          <code style="font-size: 16px; color: #4ade80; font-weight: bold;">merchant@upi</code>
         </div>
         <a href="upi://pay?pa=merchant@upi&am=49&cu=INR&tn=Cue%20Pro%20Unlock" class="btn primary small" style="text-decoration: none; padding: 8px 14px;">Pay Now (₹49)</a>
       </div>
 
-      <!-- Step 2: Verification Form (Appears after payment intention) -->
       <div id="verification-section" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 15px;">
         <h3 style="margin-bottom: 8px; font-size: 16px;">Step 2: Payment Verification</h3>
         <p style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Payment karne ke baad apni details yahan bharein:</p>
-        
         <div style="margin-bottom: 12px;">
-          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / GPay Number[cite: 2]:</label>
+          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Aapka UPI ID / GPay Number:</label>
           <input type="text" id="upi-id-input" placeholder="e.g. user@paytm" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
         </div>
         <div style="margin-bottom: 15px;">
-          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Transaction ID (UTR / Ref No)[cite: 2]:</label>
+          <label style="font-size: 13px; display: block; margin-bottom: 4px;">Transaction ID (UTR / Ref No):</label>
           <input type="text" id="txn-id-input" placeholder="e.g. 4032XXXXXXXX" style="width: 100%; padding: 10px; border-radius: 6px; background: #111; border: 1px solid #333; color: #fff;">
         </div>
         <button class="btn primary" id="btn-verify-upi" type="button" style="width: 100%; padding: 12px; font-weight: bold;">Verify & Submit Payment</button>
@@ -107,6 +106,7 @@
     </div>
 
     <div id="banner" class="banner" hidden></div>
+    <div class="ad-slot" data-ad-slot="publish" aria-hidden="true"></div>
 
     <div class="pub-grid">
       <div class="pub-col">
@@ -164,7 +164,6 @@
             <label class="label" for="m-tags">Hashtags</label>
             <input id="m-tags" type="text" autocomplete="off" placeholder="#fitness #homeworkout #reels">
           </div>
-          <p class="hint">Har platform ke liye caption apne aap adjust hota hai. Neeche edit kar sakte ho.</p>
         </section>
       </div>
 
@@ -207,18 +206,19 @@
     </div>
   </section>
 
-  <!-- ============ TOOLKIT (Bio Free) ============ -->
+  <!-- ============ TOOLKIT ============ -->
   <section id="panel-toolkit" role="tabpanel" aria-labelledby="tab-toolkit" hidden>
     <div class="page-head">
       <h1>Creator toolkit</h1>
       <p class="lede">Instagram bio ke liye fancy fonts aur har platform ka best posting time.</p>
     </div>
+    <div class="ad-slot" data-ad-slot="toolkit" aria-hidden="true"></div>
     <div class="tool-grid">
       <section class="block" aria-labelledby="h-bio">
-        <h2 id="h-bio">Instagram bio font generator (Free)[cite: 2]</h2>
+        <h2 id="h-bio">Instagram bio font generator</h2>
         <label class="label" for="bio-in">Apna bio likho</label>
         <textarea id="bio-in" rows="3" placeholder="Aapka Naam | Fitness Coach"></textarea>
-        <p class="sub"><span id="bio-count">0/150</span> characters</p>
+        <p class="sub"><span id="bio-count">0/150</span> characters (Instagram bio limit 150)</p>
         <ul id="bio-out" class="fonts"></ul>
         <h3 class="mini-h">Bio symbols</h3>
         <div id="sym-list" class="syms"></div>
@@ -232,16 +232,63 @@
     </div>
   </section>
 
+  <!-- ============ VIBESCRIPT ============ -->
+  <section id="panel-vibescript" role="tabpanel" aria-labelledby="tab-vibescript" hidden>
+    <div class="page-head">
+      <h1>VibeScript</h1>
+      <p class="lede">Kisi trend ya style ka naam batao &mdash; Cue usi style mein ek 100% original script banayega.</p>
+    </div>
+    <div class="ad-slot" data-ad-slot="vibescript" aria-hidden="true"></div>
+    <div class="layout">
+      <section class="panel-form" aria-labelledby="h-vs">
+        <h2 id="h-vs" class="sr">VibeScript brief</h2>
+        <form id="vibescript-form" novalidate>
+          <div class="field">
+            <label class="label" for="v-trend">Trend ya style</label>
+            <textarea id="v-trend" rows="3" maxlength="300" placeholder="Jaise: 'before/after transformation reveal'"></textarea>
+          </div>
+          <fieldset class="field">
+            <legend class="label">Format</legend>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="vfmt" value="reel" checked><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
+              <label class="opt"><input type="radio" name="vfmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
+              <label class="opt"><input type="radio" name="vfmt" value="yt"><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label class="label" for="v-tone">Tone <span class="hint">(optional)</span></label>
+            <input id="v-tone" type="text" maxlength="60" autocomplete="off" placeholder="Funny, seedha-seedha, inspiring...">
+          </div>
+          <button class="btn primary" type="submit">Script banao</button>
+        </form>
+      </section>
+      <section class="results" id="vibescript-results" tabindex="-1" aria-label="VibeScript output"></section>
+    </div>
+  </section>
+
   <!-- ============ HISTORY ============ -->
   <section id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
     <div class="page-head">
       <h1>Publishing history</h1>
       <p class="lede">Kya post kiya, kahan kiya, aur kya fail hua.</p>
     </div>
+    <div class="ad-slot" data-ad-slot="history" aria-hidden="true"></div>
     <div id="stats" class="stats"></div>
+    <div class="chart-row">
+      <section class="block" aria-labelledby="h-cplat">
+        <h2 id="h-cplat">Platform ke hisaab se</h2>
+        <ul id="chart-plat" class="bars"></ul>
+      </section>
+      <section class="block" aria-labelledby="h-cweek">
+        <h2 id="h-cweek">Pichhle 7 din</h2>
+        <ul id="chart-week" class="week"></ul>
+      </section>
+    </div>
     <div class="filters" role="group" aria-label="History filter">
       <button class="fchip" type="button" data-filter="all" aria-pressed="true">Sab</button>
       <button class="fchip" type="button" data-filter="done" aria-pressed="false">Published</button>
+      <button class="fchip" type="button" data-filter="scheduled" aria-pressed="false">Scheduled</button>
+      <button class="fchip" type="button" data-filter="failed" aria-pressed="false">Fail</button>
     </div>
     <ul id="hist-list" class="hist"></ul>
     <button id="hist-clear" class="btn link" type="button" hidden>History saaf karo</button>
@@ -258,97 +305,10 @@
 <script src="js/ideas.js"></script>
 <script src="js/toolkit.js"></script>
 <script src="js/history.js"></script>
+<script src="ads.config.js"></script>
+<script src="js/ads.js"></script>
 <script src="js/publisher.js"></script>
+<script src="js/vibescript.js"></script>
 <script src="js/app.js"></script>
-
-<!-- Supabase & 3 Trials / UPI Integration Script -->
-<script>
-  const SUPABASE_URL = 'https://rfxsiiuvqweicpytqsuk.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_StgQ6pQAs0maOgMRpKJF-Q_NfMbjWZq';
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  function getRemainingTrials() {
-    let trials = localStorage.getItem('cue_free_trials');
-    if (trials === null) {
-      trials = 3;
-      localStorage.setItem('cue_free_trials', trials);
-    }
-    return parseInt(trials, 10);
-  }
-
-  function updateTrialDisplay() {
-    const counter = document.getElementById('trial-counter');
-    const trials = getRemainingTrials();
-    if (counter) {
-      counter.textContent = `Muft trials bache hain: ${trials}/3`;
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    updateTrialDisplay();
-
-    // Intercept form submission to check 3 trials across services
-    const briefForm = document.getElementById('brief');
-    if (briefForm) {
-      briefForm.addEventListener('submit', (e) => {
-        let trials = getRemainingTrials();
-        if (trials <= 0) {
-          e.preventDefault();
-          alert('Aapke 3 free trials khatam ho chuke hain! Kripya Publish tab mein jaakar UPI payment karein.');
-        } else {
-          trials -= 1;
-          localStorage.setItem('cue_free_trials', trials);
-          updateTrialDisplay();
-        }
-      });
-    }
-
-    // Intercept alert for trial expiry redirect to payment
-    const originalAlert = window.alert;
-    window.alert = function(msg) {
-      if (msg && msg.includes('khatam ho chuke hain')) {
-        const pubTab = document.getElementById('tab-publish');
-        if (pubTab) pubTab.click();
-        setTimeout(() => {
-          const upiSec = document.getElementById('h-upi');
-          if (upiSec) upiSec.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-        return;
-      }
-      originalAlert(msg);
-    };
-
-    // Supabase UPI Payment Verification Handler
-    const verifyBtn = document.getElementById('btn-verify-upi');
-    if (verifyBtn) {
-      verifyBtn.addEventListener('click', async () => {
-        const upiId = document.getElementById('upi-id-input').value.trim();
-        const txnId = document.getElementById('txn-id-input').value.trim();
-
-        if (!upiId || !txnId) {
-          alert('Kripya apna UPI ID aur Transaction ID dono bharein!');
-          return;
-        }
-
-        try {
-          const { data, error } = await supabaseClient
-            .from('payments')
-            .insert([
-              { upi_id: upiId, txn_id: txnId, status: 'pending_verification', created_at: new Date() }
-            ]);
-
-          if (error) throw error;
-
-          alert('UPI Payment details safalta purvak submit ho gayi hain! Verification ke baad account unlock ho jayega.');
-          document.getElementById('upi-id-input').value = '';
-          document.getElementById('txn-id-input').value = '';
-        } catch (err) {
-          console.error('Supabase error:', err.message);
-          alert('Error: ' + err.message);
-        }
-      });
-    }
-  });
-</script>
 </body>
 </html>
