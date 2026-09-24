@@ -1,31 +1,98 @@
-<h1 id="h1">Agla video kya banana hai?</h1>
-<p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: #4ade80; display: block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
-<form id="brief" novalidate>
-  <fieldset class="field">
-    <legend class="label">Kahan post karoge?</legend>
-    <div class="opts">
-      <label class="opt"><input type="radio" name="fmt" value="yt" checked><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
-      <label class="opt"><input type="radio" name="fmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
-      <label class="opt"><input type="radio" name="fmt" value="reel"><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
+<!DOCTYPE html>
+<html lang="hi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cue - Creator Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Courier+Prime:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <span class="wordmark">Cue</span>
+      <nav class="tabs" role="tablist">
+        <button class="tab" role="tab" id="tab-ideas" aria-controls="panel-ideas" aria-selected="true">Ideas</button>
+        <button class="tab" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" tabindex="-1">Publish</button>
+        <button class="tab" role="tab" id="tab-toolkit" aria-controls="panel-toolkit" aria-selected="false" tabindex="-1">Toolkit</button>
+        <button class="tab" role="tab" id="tab-vibe" aria-controls="panel-vibe" aria-selected="false" tabindex="-1">VibeScript</button>
+        <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">History</button>
+      </nav>
     </div>
-  </fieldset>
-  <div class="field">
-    <label class="label" for="niche">Tumhari niche</label>
-    <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout" aria-describedby="niche-error">
-    <p class="field-error" id="niche-error" role="alert" hidden></p>
-  </div>
-  <div class="field">
-    <label class="label" for="audience">Tumhare viewers <span class="hint">(optional)</span></label>
-    <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
-  </div>
-  <fieldset class="field">
-    <legend class="label">Tone</legend>
-    <div class="chips">
-      <label class="chip"><input type="radio" name="tone" value="Educational" checked><span class="box">Sikhane wala</span></label>
-      <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
-      <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
-      <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
-    </div>
-  </fieldset>
-  <button class="btn primary" id="go" type="submit">Idea lo</button>
-</form>
+  </header>
+
+  <main class="wrap">
+    <!-- Ideas Section -->
+    <section id="panel-ideas" role="tabpanel" tabindex="0">
+      <div class="page-head">
+        <h1 id="h1">Agla video kya banana hai?</h1>
+        <p class="lede">Apni niche batao. Ek behtareen video idea aur script lo jo aaj hi record kar sako. <span id="trial-counter" style="color: var(--ok); display: block; margin-top: 4px; font-weight: bold;">Muft trials bache hain: 3/3</span></p>
+      </div>
+
+      <div class="layout">
+        <div class="panel-form">
+          <form id="brief" novalidate>
+            <fieldset class="field">
+              <legend class="label">Kahan post karoge?</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="fmt" value="yt" checked><span class="box"><b>YouTube video</b><small>5 se 10 minute</small></span></label>
+                <label class="opt"><input type="radio" name="fmt" value="short"><span class="box"><b>YouTube Short</b><small>60 second se kam</small></span></label>
+                <label class="opt"><input type="radio" name="fmt" value="reel"><span class="box"><b>Instagram Reel</b><small>20 se 45 second</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label class="label" for="niche">Tumhari niche</label>
+              <input id="niche" name="niche" type="text" maxlength="120" autocomplete="off" placeholder="Busy parents ke liye ghar par workout" aria-describedby="niche-error">
+              <p class="field-error" id="niche-error" role="alert" hidden></p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="audience">Tumhare viewers <span class="hint">(optional)</span></label>
+              <input id="audience" name="audience" type="text" maxlength="120" autocomplete="off" placeholder="Beginners jinke paas roz 20 minute hain">
+            </div>
+
+            <fieldset class="field">
+              <legend class="label">Tone</legend>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="tone" value="Educational" checked><span class="box">Sikhane wala</span></label>
+                <label class="chip"><input type="radio" name="tone" value="Funny"><span class="box">Funny</span></label>
+                <label class="chip"><input type="radio" name="tone" value="Inspiring"><span class="box">Inspiring</span></label>
+                <label class="chip"><input type="radio" name="tone" value="Straight-talking"><span class="box">Seedha-seedha</span></label>
+              </div>
+            </fieldset>
+
+            <button class="btn primary" id="go" type="submit">Idea lo</button>
+          </form>
+        </div>
+
+        <div class="results" id="results" tabindex="0">
+          <div class="empty">
+            <strong>Yahan aapka idea aayega</strong>
+            <span>Pehle form mein apni niche daal kar "Idea lo" par click karein.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other Panels placeholder / Dummy for structural safety -->
+    <section id="panel-publish" role="tabpanel" tabindex="0" hidden>
+      <h1>Publish Hub</h1>
+    </section>
+    <section id="panel-toolkit" role="tabpanel" tabindex="0" hidden>
+      <h1>Creator Toolkit</h1>
+    </section>
+    <section id="panel-vibe" role="tabpanel" tabindex="0" hidden>
+      <h1>VibeScript</h1>
+    </section>
+    <section id="panel-history" role="tabpanel" tabindex="0" hidden>
+      <h1>History</h1>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script src="js/ideas.js"></script>
+</body>
+</html>
